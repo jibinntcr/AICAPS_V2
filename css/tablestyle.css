@@ -1,0 +1,50 @@
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #a7a6a5;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    color: white;
+}
+
+li.tab-btn.active-btn {
+    border: 1px solid #802769;
+    background: #802769;
+    color: white !important;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+ul {
+    list-style-type: none;
+    margin: 1px;
+    padding: 1px;
+}
+
+ul.a {
+    list-style-type: circle;
+}
+
+ul.b {
+    list-style-type: square;
+}
+
+ol.c {
+    list-style-type: upper-roman;
+}
+
+ol.d {
+    list-style-type: lower-alpha;
+}
