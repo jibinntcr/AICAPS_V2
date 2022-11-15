@@ -1302,7 +1302,7 @@ ol {
 
 .about-section {
   padding-top: 0;
-  padding-bottom: 90px;
+  /* padding-bottom: 90px; */
 }
 
 .about-section .section-title {
@@ -1363,7 +1363,7 @@ ol {
 }
 
 .story-section .section-title {
-  text-align: left;
+  /* text-align: left; */
 }
 
 .story-section .section-title h2 {
