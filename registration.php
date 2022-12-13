@@ -222,7 +222,7 @@
 
         <!-- form start -->
 
-        <section class="contact-from-section spad">
+        <!-- <section class="contact-from-section spad">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -263,7 +263,6 @@
                                     <input type="text" placeholder="Paper Name" name="papername" id="papername">
                                 </div>
                                 <div class="col-lg-12 text-center">
-                                    <!-- <textarea placeholder="Messages"></textarea> -->
                                     <button type="submit" class="site-btn">Proceed to payment and register </button>
                                 </div>
                             </div>
@@ -271,7 +270,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- for end -->
 
