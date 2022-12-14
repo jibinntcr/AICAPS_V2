@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include('../includes/config.php');
+include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:login.php');
 } else { ?>
@@ -52,27 +52,51 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <table class="table-responsive w-full rounded">
                                         <thead>
                                             <tr>
+                                                <th class="border w-1/4 px-4 py-2">#</th>
                                                 <th class="border w-1/4 px-4 py-2">Name</th>
                                                 <th class="border w-1/6 px-4 py-2">Email</th>
                                                 <th class="border w-1/6 px-4 py-2">Phone</th>
-                                                <th class="border w-1/6 px-4 py-2">Institution</th>
-                                                <th class="border w-1/7 px-4 py-2">Category</th>
+                                                <th class="border w-1/6 px-4 py-2">Designation</th>
+                                                <th class="border w-1/7 px-4 py-2">Affiliation</th>
+                                                <th class="border w-1/5 px-4 py-2">Type</th>
+                                                <th class="border w-1/5 px-4 py-2">Category</th>
                                                 <th class="border w-1/5 px-4 py-2">Papper ID</th>
                                                 <th class="border w-1/5 px-4 py-2">Papper Name</th>
+                                                <th class="border w-1/5 px-4 py-2">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+
+                                            <?php
+                                                $cnt =  1;
+                                                $sql = "SELECT * from registration ";
+                                                $query = $dbh->prepare($sql);
+                                                $query->execute();
+                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+                                                if ($query->rowCount() > 0) {
+                                                    foreach ($results as $result) {
+                                                ?>
+
                                             <tr>
-                                                <td class="border px-4 py-2">Micheal Clarke</td>
-                                                <td class="border px-4 py-2">Sydney</td>
-                                                <td class="border px-4 py-2">MS</td>
-                                                <td class="border px-4 py-2">900 $</td>
-                                                <td class="border px-4 py-2">Auther
-                                                    <!-- <i class="text-green-500">Auther</i> -->
+                                                <td class="border px-4 py-2"><?php echo   $cnt ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->name ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->email ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->phone ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->designation ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->affiliation ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->Type ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->category ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->paperid ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->paperTitle ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->registerStatus ?>
                                                 </td>
-                                                <td class="border px-4 py-2">11000332255</td>
-                                                <td class="border px-4 py-2">papper name</td>
                                             </tr>
+                                            <?php $cnt = $cnt + 1;
+                                                    }
+                                                }
+
+                                                ?>
                                         </tbody>
                                     </table>
                                 </div>

@@ -2,6 +2,35 @@
 session_start();
 error_reporting(0);
 include('../admin/includes/config.php');
+
+
+if (isset($_POST['registerBTN'])) {
+
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $designation = $_POST['designation'];
+    $affiliation = $_POST['affiliation'];
+    $type = $_POST['type'];
+    $category = $_POST['category'];
+    $paperid = $_POST['paperid'];
+    $papername = $_POST['papername'];
+
+
+    $registerStatus = 'initiated';
+    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,affiliation,type,registerStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "')";
+    // print_r($sql);
+    // exit();
+    $query = $dbh->prepare($sql);
+    $result = $query->execute();
+    if ($query->rowCount() > 0) {
+        $_SESSION["registration"] = "initiated";
+        echo '<script>window.location = "index.php";</script>';
+    } else {
+        $_SESSION["registration"] = "failed";
+        echo '<script>window.location = "index.php";</script>';
+    }
+}
 ?>
 
 
@@ -78,27 +107,39 @@ include('../admin/includes/config.php');
                         <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <input type="text" placeholder="Name" name="name" id="name" require>
+                                    <input type="text" placeholder="Name" name="name" id="name" required>
                                 </div>
                                 <div class="col-lg-4">
-                                    <input type="email" placeholder="Email" name="emmail" id="email" require>
+                                    <input type="email" placeholder="Email" name="email" id="email" required>
                                 </div>
                                 <div class="col-lg-4">
-                                    <input type="text" placeholder="Phone" name="phone" id="phone" require>
+                                    <input type="text" placeholder="Phone" name="phone" id="phone" required>
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="text" placeholder="Designation" name="designation" id="designation"
-                                        require>
+                                        required>
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="text" placeholder="Affiliation" name="affiliation" id="affiliation"
-                                        require>
+                                        required>
                                 </div>
                                 <div class="col-lg-4">
                                     <select name="type" placeholder="Type" id="type" required>
                                         <option selected="true" disabled="disabled">Type</option>
-                                        <option value="Participants">IEEE</option>
-                                        <option value="Auther">Author</option>
+                                        <option value="₹6000">IEEE Indian Author (Academia)</option>
+                                        <option value="₹7000">IEEE Indian Author (Industry)</option>
+                                        <option value="₹5000">IEEE Indian Student</option>
+                                        <option value="₹2000">IEEE Indian Non-Author Attendee</option>
+                                        <option value="$200">IEEE Foreign Author</option>
+                                        <option value="$100">IEEE Foreign Student Author</option>
+                                        <option value="$50">IEEE Foreign Non-Author Attendee</option>
+                                        <option value="₹7500">Non-IEEE Indian Author (Academia)</option>
+                                        <option value="₹8500">Non-IEEE Indian Author (Industry)</option>
+                                        <option value="₹6500">Non-IEEE Indian Student</option>
+                                        <option value="₹2500">Non-IEEE Indian Non-Author Attendee</option>
+                                        <option value="$250">Non-IEEE Foreign Author</option>
+                                        <option value="$150">Non-IEEE Foreign Student Author</option>
+                                        <option value="$70">Non-IEEE Foreign Non-Author Attendee</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
@@ -120,7 +161,8 @@ include('../admin/includes/config.php');
                                 </div>
                                 <div class="col-lg-12 text-center">
                                     <!-- <textarea placeholder="Messages"></textarea> -->
-                                    <button type="submit" class="site-btn">Proceed to payment and register </button>
+                                    <button name="registerBTN" id="registerBTN" type="submit" class="site-btn">Proceed
+                                        to payment and register </button>
                                 </div>
                             </div>
                         </form>
