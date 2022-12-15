@@ -3,44 +3,16 @@ session_start();
 error_reporting(0);
 include('../admin/includes/config.php');
 
+$name = $_SESSION['name'];
+$email = $_SESSION['email'];
+$phone = $_SESSION['phone'] = $_POST['phone'];
+$designation = $_SESSION['designation'];
+$affiliation = $_SESSION['affiliation'];
+$type = $_SESSION['type'];
+$category = $_SESSION['category'];
+$paperid = $_SESSION['paperid'];
+$papername = $_SESSION['papername'];
 
-if (isset($_POST['registerBTN'])) {
-
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $designation = $_POST['designation'];
-    $affiliation = $_POST['affiliation'];
-    $type = $_POST['type'];
-    $category = $_POST['category'];
-    $paperid = $_POST['paperid'];
-    $papername = $_POST['papername'];
-
-
-    $_SESSION['name'] = $_POST['name'];
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['phone'] = $_POST['phone'];
-    $_SESSION['designation'] = $_POST['designation'];
-    $_SESSION['affiliation'] = $_POST['affiliation'];
-    $_SESSION['type'] = $_POST['type'];
-    $_SESSION['category'] = $_POST['category'];
-    $_SESSION['paperid'] = $_POST['paperid'];
-    $_SESSION['papername'] = $_POST['papername'];
-
-    $registerStatus = 'initiated';
-    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,affiliation,type,registerStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "')";
-    // print_r($sql);
-    // exit();
-    $query = $dbh->prepare($sql);
-    $result = $query->execute();
-    if ($query->rowCount() > 0) {
-        $_SESSION["registration"] = "initiated";
-        echo '<script>window.location = "pay.php";</script>';
-    } else {
-        $_SESSION["registration"] = "failed";
-        echo '<script>window.location = "index.php";</script>';
-    }
-}
 ?>
 
 
@@ -108,7 +80,7 @@ if (isset($_POST['registerBTN'])) {
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h2>Register Here</h2>
+                            <h2>Pay Here</h2>
                         </div>
                     </div>
                 </div>
@@ -116,63 +88,48 @@ if (isset($_POST['registerBTN'])) {
                     <div class="col-lg-12">
                         <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <input type="text" placeholder="Name" name="name" id="name" required>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Name: </b></label>
+                                    <?php echo $name ?>
                                 </div>
-                                <div class="col-lg-4">
-                                    <input type="email" placeholder="Email" name="email" id="email" required>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Email:</b> </label>
+                                    <?php echo $email ?>
                                 </div>
-                                <div class="col-lg-4">
-                                    <input type="text" placeholder="Phone" name="phone" id="phone" required>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Phone Number:</b> </label>
+                                    <?php echo $phone ?>
                                 </div>
-                                <div class="col-lg-4">
-                                    <input type="text" placeholder="Designation" name="designation" id="designation"
-                                        required>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Designation:</b> </label>
+                                    <?php echo $designation ?>
                                 </div>
-                                <div class="col-lg-4">
-                                    <input type="text" placeholder="Affiliation" name="affiliation" id="affiliation"
-                                        required>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Affiliation:</b> </label>
+                                    <?php echo $affiliation ?>
                                 </div>
-                                <div class="col-lg-4">
-                                    <select name="type" placeholder="Type" id="type" required>
-                                        <option selected="true" disabled="disabled">Type</option>
-                                        <option value="₹6000">IEEE Indian Author (Academia)</option>
-                                        <option value="₹7000">IEEE Indian Author (Industry)</option>
-                                        <option value="₹5000">IEEE Indian Student</option>
-                                        <option value="₹2000">IEEE Indian Non-Author Attendee</option>
-                                        <option value="$200">IEEE Foreign Author</option>
-                                        <option value="$100">IEEE Foreign Student Author</option>
-                                        <option value="$50">IEEE Foreign Non-Author Attendee</option>
-                                        <option value="₹7500">Non-IEEE Indian Author (Academia)</option>
-                                        <option value="₹8500">Non-IEEE Indian Author (Industry)</option>
-                                        <option value="₹6500">Non-IEEE Indian Student</option>
-                                        <option value="₹2500">Non-IEEE Indian Non-Author Attendee</option>
-                                        <option value="$250">Non-IEEE Foreign Author</option>
-                                        <option value="$150">Non-IEEE Foreign Student Author</option>
-                                        <option value="$70">Non-IEEE Foreign Non-Author Attendee</option>
-                                    </select>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Price:</b> </label>
+                                    <?php echo $type ?>
                                 </div>
-                                <div class="col-lg-4">
-                                    <select onchange="yesnoCheck(this);" name="category" placeholder="Category"
-                                        id="category" required>
-                                        <option selected="true" disabled="disabled">Category</option>
-                                        <option value="Participant">Participant</option>
-                                        <option value="Auther">Author</option>
-                                    </select>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Category:</b> </label>
+                                    <?php echo $category ?>
                                 </div>
 
-                                <div id="paperid" class="col-lg-4" style="display: none;">
-                                    <input type="text" placeholder="Paper ID" name="paperid" id="paperid"
-                                        onchange="showPaperid(this.value)">
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Paper ID:</b> </label>
+                                    <?php echo $paperid ?>
                                 </div>
 
-                                <div id="papername" class="col-lg-4" style="display: none;">
-                                    <!-- <input type="text" placeholder="Paper Name" name="papername" id="papername"> -->
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Paper Name:</b> </label>
+                                    <?php echo $papername ?>
                                 </div>
                                 <div class="col-lg-12 text-center">
                                     <!-- <textarea placeholder="Messages"></textarea> -->
-                                    <button name="registerBTN" id="registerBTN" type="submit" class="site-btn">Proceed
-                                        to payment and register </button>
+                                    <button name="registerBTN" id="rzp-button1" type="submit"
+                                        class="site-btn">Pay</button>
                                 </div>
                             </div>
                         </form>
@@ -257,32 +214,51 @@ if (isset($_POST['registerBTN'])) {
     <script src="../js/mainO.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
+    <!-- <button id="rzp-button1">Pay</button> -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-    function yesnoCheck(that) {
-        if (that.value == "Auther") {
-            document.getElementById("paperid").style.display = "block";
-            document.getElementById("papername").style.display = "block";
-        } else if (that.value == "Participant") {
-            document.getElementById("paperid").style.display = "none";
-            document.getElementById("papername").style.display = "none ";
+    var options = {
+        "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
+        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Acme Corp",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function(response) {
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature)
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
         }
-    }
-
-    function showPaperid(paperid) {
-        console.log("paperId =>", paperid);
-        $.ajax({
-            url: "select-paper-name.php",
-            method: "post",
-            data: {
-                paperid: paperid
-            },
-            success: function(data) {
-                $('#papername').html(data);
-                console.log(data);
-            }
-        });
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function(response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e) {
+        rzp1.open();
+        e.preventDefault();
     }
     </script>
+
+
 </body>
 
 </html>
