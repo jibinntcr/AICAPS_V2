@@ -1,17 +1,17 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
-error_reporting(0);
 include('../admin/includes/config.php');
+require('razorpay-php/Razorpay.php');
 
-$name = $_SESSION['name'];
-$email = $_SESSION['email'];
-$phone = $_SESSION['phone'] = $_POST['phone'];
-$designation = $_SESSION['designation'];
-$affiliation = $_SESSION['affiliation'];
-$type = $_SESSION['type'];
-$category = $_SESSION['category'];
-$paperid = $_SESSION['paperid'];
-$papername = $_SESSION['papername'];
+if (!isset($_SESSION['email'])) {
+    header("location:index.php");
+    exit();
+} else {
+    $type = $_SESSION['type'];
+}
 
 ?>
 
@@ -45,9 +45,9 @@ $papername = $_SESSION['papername'];
 <body>
     <div class="container-xxl p-0">
         <!-- Page Preloder -->
-        <div id="preloder">
+        <!-- <div id="preloder">
             <div class="loader"></div>
-        </div>
+        </div> -->
 
         <div class="container-fluid nav-bar bg-transparent">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
@@ -81,12 +81,89 @@ $papername = $_SESSION['papername'];
                     <div class="col-lg-12">
                         <div class="section-title">
                             <h2>Pay Here</h2>
+                            <?php
+                            include("gatway-config.php");
+
+                            use Razorpay\Api\Api;
+
+                            $api = new Api($keyId, $keySecret);
+
+                            $name = $_SESSION['name'];
+                            $email = $_SESSION['email'];
+                            $phone = $_SESSION['phone'];
+                            $designation = $_SESSION['designation'];
+                            $affiliation = $_SESSION['affiliation'];
+                            $type = $_SESSION['type'];
+                            $category = $_SESSION['category'];
+                            $paperid = $_SESSION['paperid'];
+                            $papername = $_SESSION['papername'];
+                            $webtitle = "AICAPS2023";
+
+                            if ($type == '$200' || $type = '$100' || $type = '$50' || $type = '$250' || $type = '$150' || $type = '$70') {
+                                $displayCurrency = 'USD';
+                                $typeDoller = ltrim($type, '$');
+                                $curRate = $typeDoller * 82.80;
+                            } else {
+                                $displayCurrency = 'INR';
+                                $typeDoller = ltrim($type, '₹');
+                                $curRate = $typeDoller;
+                            }
+                            $imageurl = "";
+                            $orderData = [
+                                'receipt'         => 3456,
+                                'amount'          => $curRate * 100, // 2000 rupees in paise
+                                'currency'        => 'INR',
+                                'payment_capture' => 1 // auto capture
+                            ];
+
+                            $razorpayOrder = $api->order->create($orderData);
+
+                            $razorpayOrderId = $razorpayOrder['id'];
+
+                            $_SESSION['razorpay_order_id'] = $razorpayOrderId;
+
+                            $displayAmount = $amount = $orderData['amount'];
+
+                            if ($displayCurrency !== 'INR') {
+                                $url = "https://api.fixer.io/latest?symbols=$displayCurrency&base=INR";
+                                $exchange = json_decode(file_get_contents($url), true);
+
+                                $displayAmount = $exchange['rates'][$displayCurrency] * $amount / 100;
+                            }
+
+                            $data = [
+                                "key"               => $keyId,
+                                "amount"            => $amount,
+                                "name"              => $webtitle,
+                                "description"       => $type,
+                                "image"             => "https://s29.postimg.org/r6dj1g85z/daft_punk.jpg",
+                                "prefill"           => [
+                                    "name"              => $name,
+                                    "email"             => $email,
+                                    "contact"           => $phone,
+                                ],
+                                "notes"             => [
+                                    "address"           => "Hello World",
+                                    "merchant_order_id" => "12312321",
+                                ],
+                                "theme"             => [
+                                    "color"             => "#F37254"
+                                ],
+                                "order_id"          => $razorpayOrderId,
+                            ];
+                            if ($displayCurrency !== 'INR') {
+                                $data['display_currency']  = $displayCurrency;
+                                $data['display_amount']    = $displayAmount;
+                            }
+
+                            $json = json_encode($data);
+                            ?>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
+                        <div class="comment-form contact-form">
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
                                     <label><b>Name: </b></label>
@@ -126,13 +203,30 @@ $papername = $_SESSION['papername'];
                                     <label><b>Paper Name:</b> </label>
                                     <?php echo $papername ?>
                                 </div>
-                                <div class="col-lg-12 text-center">
-                                    <!-- <textarea placeholder="Messages"></textarea> -->
-                                    <button name="registerBTN" id="rzp-button1" type="submit"
-                                        class="site-btn">Pay</button>
-                                </div>
+                                <center>
+                                    <form action="verify.php" method="POST">
+                                        <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                            data-key="<?php echo $data['key'] ?>"
+                                            data-amount="<?php echo $data['amount'] ?>" data-currency="INR"
+                                            data-name="<?php echo $data['name'] ?>"
+                                            data-image="<?php echo $data['image'] ?>"
+                                            data-description="<?php echo $data['description'] ?>"
+                                            data-prefill.name="<?php echo $data['prefill']['name'] ?>"
+                                            data-prefill.email="<?php echo $data['prefill']['email'] ?>"
+                                            data-prefill.contact="<?php echo $data['prefill']['contact'] ?>"
+                                            data-notes.shopping_order_id="3456"
+                                            data-order_id="<?php echo $data['order_id'] ?>"
+                                            <?php if ($displayCurrency !== 'INR') { ?>
+                                            data-display_amount="<?php echo $data['display_amount'] ?>" <?php } ?>
+                                            <?php if ($displayCurrency !== 'INR') { ?>
+                                            data-display_currency="<?php echo $data['display_currency'] ?>" <?php } ?>>
+                                        </script>
+                                        <!-- Any extra fields to be submitted with the form but not sent to Razorpay -->
+                                        <input type="hidden" name="shopping_order_id" value="<?php echo $type ?>">
+                                    </form>
+                                </center>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,51 +307,6 @@ $papername = $_SESSION['papername'];
     <!-- Template Javascript -->
     <script src="../js/mainO.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <!-- <button id="rzp-button1">Pay</button> -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-    var options = {
-        "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
-        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        "currency": "INR",
-        "name": "Acme Corp",
-        "description": "Test Transaction",
-        "image": "https://example.com/your_logo",
-        "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "handler": function(response) {
-            alert(response.razorpay_payment_id);
-            alert(response.razorpay_order_id);
-            alert(response.razorpay_signature)
-        },
-        "prefill": {
-            "name": "Gaurav Kumar",
-            "email": "gaurav.kumar@example.com",
-            "contact": "9999999999"
-        },
-        "notes": {
-            "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-            "color": "#3399cc"
-        }
-    };
-    var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function(response) {
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
-    });
-    document.getElementById('rzp-button1').onclick = function(e) {
-        rzp1.open();
-        e.preventDefault();
-    }
-    </script>
-
 
 </body>
 
