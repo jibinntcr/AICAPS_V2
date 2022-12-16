@@ -172,7 +172,7 @@ if (isset($_POST['registerBTN'])) {
                                 <div class="col-lg-12 text-center">
                                     <!-- <textarea placeholder="Messages"></textarea> -->
                                     <button name="registerBTN" id="registerBTN" type="submit" class="site-btn">Proceed
-                                        to payment and register </button>
+                                        to payment</button>
                                 </div>
                             </div>
                         </form>
