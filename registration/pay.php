@@ -1,17 +1,63 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 session_start();
 include('../admin/includes/config.php');
-require('razorpay-php/Razorpay.php');
 
-if (!isset($_SESSION['email'])) {
-    header("location:index.php");
-    exit();
-} else {
-    $type = $_SESSION['type'];
+if (isset($_SESSION['email'])) {
+
+    $email=$_SESSION['email'];
+    $sql = "SELECT * FROM `registration` WHERE email= '$email'";
+    // print_r($sql);
+    // exit();
+    $query = $dbh->prepare($sql);
+    $query->execute();
+    $userArr = $query->fetchAll(PDO::FETCH_OBJ);
+    if ($query->rowCount() > 0) {
+        
+        $name=$userArr[0]->name;
+        $email=$userArr[0]->email;
+        $phone=$userArr[0]->phone;
+        $designation=$userArr[0]->designation;
+        $affiliation=$userArr[0]->affiliation;
+        $type=$userArr[0]->Type;
+        $category=$userArr[0]->category;
+        $papername=$userArr[0]->paperTitle;
+        $paperid=$userArr[0]->paperid;
+
+    } 
+   
 }
+if (isset($_POST['emailBTN'])) {
+
+    $datamail=$_POST['email'];
+    $sql = "SELECT * FROM `registration` WHERE email= '$datamail'";
+    // print_r($sql);
+    // exit();
+    $query = $dbh->prepare($sql);
+    $query->execute();
+    $userArr = $query->fetchAll(PDO::FETCH_OBJ);
+    if ($query->rowCount() > 0) {
+        
+        $name=$userArr[0]->name;
+        $email=$userArr[0]->email;
+        $phone=$userArr[0]->phone;
+        $designation=$userArr[0]->designation;
+        $affiliation=$userArr[0]->affiliation;
+        $type=$userArr[0]->Type;
+        $category=$userArr[0]->category;
+        $papername=$userArr[0]->paperTitle;
+        $paperid=$userArr[0]->paperid;
+
+    } 
+    else{
+        echo "<script>alert('Something went wrong! Please check the email id');</script>";
+        echo "<script> location.href='pay.php'; </script>";
+        exit();
+    }
+}
+
 
 ?>
 
@@ -40,6 +86,7 @@ if (!isset($_SESSION['email'])) {
     <link rel="stylesheet" href="../css/magnific-popup.css" type="text/css" />
     <link rel="stylesheet" href="../css/slicknav.min.css" type="text/css" />
     <link rel="stylesheet" href="../css/style.css" type="text/css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -71,93 +118,72 @@ if (!isset($_SESSION['email'])) {
         </div>
         <!-- Navbar End -->
 
+        <?php
+        if (isset($_SESSION["registration"]) == "initiated") {
+        ?>
+        <script>
+        swal({
+            title: "Success!",
+            text: "Registration Completed",
+            icon: "success",
+            button: "OK",
+        });
+        </script>
+        <?php
+            unset($_SESSION["registration"]);
+        } else if (isset($_SESSION["registration"]) == "failed") {
+        ?>
+        <script>
+        swal("Something went wrong !", "Please try after some time!", "error");
+        </script>
+        <?php
+            unset($_SESSION["registration"]);
+        }
+        ?>
 
 
         <!-- form start -->
+        <?php 
+        if(!isset($_SESSION['email'])&&!isset($datamail)) {?>
 
+            <section class="contact-from-section spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h2>Pay Here</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <input type="email" placeholder="Email" name="email" id="email" required>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <!-- <textarea placeholder="Messages"></textarea> -->
+                                    <button name="emailBTN" id="emailBTN" type="submit" class="site-btn">submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <?php
+   
+} ?>
+<?php
+if(isset($_SESSION['email']) || isset($datamail)) {?>
         <section class="contact-from-section spad">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
                             <h2>Pay Here</h2>
-                            <?php
-                            include("gatway-config.php");
-
-                            use Razorpay\Api\Api;
-
-                            $api = new Api($keyId, $keySecret);
-
-                            $name = $_SESSION['name'];
-                            $email = $_SESSION['email'];
-                            $phone = $_SESSION['phone'];
-                            $designation = $_SESSION['designation'];
-                            $affiliation = $_SESSION['affiliation'];
-                            $type = $_SESSION['type'];
-                            $category = $_SESSION['category'];
-                            $paperid = $_SESSION['paperid'];
-                            $papername = $_SESSION['papername'];
-                            $webtitle = "AICAPS2023";
-
-                            if ($type == '$200' || $type = '$100' || $type = '$50' || $type = '$250' || $type = '$150' || $type = '$70') {
-                                $displayCurrency = 'USD';
-                                $typeDoller = ltrim($type, '$');
-                                $curRate = $typeDoller * 82.80;
-                            } else {
-                                $displayCurrency = 'INR';
-                                $typeDoller = ltrim($type, '₹');
-                                $curRate = $typeDoller;
-                            }
-                            $imageurl = "";
-                            $orderData = [
-                                'receipt'         => 3456,
-                                'amount'          => $curRate * 100, // 2000 rupees in paise
-                                'currency'        => 'INR',
-                                'payment_capture' => 1 // auto capture
-                            ];
-
-                            $razorpayOrder = $api->order->create($orderData);
-
-                            $razorpayOrderId = $razorpayOrder['id'];
-
-                            $_SESSION['razorpay_order_id'] = $razorpayOrderId;
-
-                            $displayAmount = $amount = $orderData['amount'];
-
-                            if ($displayCurrency !== 'INR') {
-                                $url = "https://api.fixer.io/latest?symbols=$displayCurrency&base=INR";
-                                $exchange = json_decode(file_get_contents($url), true);
-
-                                $displayAmount = $exchange['rates'][$displayCurrency] * $amount / 100;
-                            }
-
-                            $data = [
-                                "key"               => $keyId,
-                                "amount"            => $amount,
-                                "name"              => $webtitle,
-                                "description"       => $type,
-                                "image"             => "https://s29.postimg.org/r6dj1g85z/daft_punk.jpg",
-                                "prefill"           => [
-                                    "name"              => $name,
-                                    "email"             => $email,
-                                    "contact"           => $phone,
-                                ],
-                                "notes"             => [
-                                    "address"           => "Hello World",
-                                    "merchant_order_id" => "12312321",
-                                ],
-                                "theme"             => [
-                                    "color"             => "#F37254"
-                                ],
-                                "order_id"          => $razorpayOrderId,
-                            ];
-                            if ($displayCurrency !== 'INR') {
-                                $data['display_currency']  = $displayCurrency;
-                                $data['display_amount']    = $displayAmount;
-                            }
-
-                            $json = json_encode($data);
-                            ?>
+                            
                         </div>
                     </div>
                 </div>
@@ -203,34 +229,19 @@ if (!isset($_SESSION['email'])) {
                                     <label><b>Paper Name:</b> </label>
                                     <?php echo $papername ?>
                                 </div>
-                                <center>
-                                    <form action="verify.php" method="POST">
-                                        <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                            data-key="<?php echo $data['key'] ?>"
-                                            data-amount="<?php echo $data['amount'] ?>" data-currency="INR"
-                                            data-name="<?php echo $data['name'] ?>"
-                                            data-image="<?php echo $data['image'] ?>"
-                                            data-description="<?php echo $data['description'] ?>"
-                                            data-prefill.name="<?php echo $data['prefill']['name'] ?>"
-                                            data-prefill.email="<?php echo $data['prefill']['email'] ?>"
-                                            data-prefill.contact="<?php echo $data['prefill']['contact'] ?>"
-                                            data-notes.shopping_order_id="3456"
-                                            data-order_id="<?php echo $data['order_id'] ?>"
-                                            <?php if ($displayCurrency !== 'INR') { ?>
-                                            data-display_amount="<?php echo $data['display_amount'] ?>" <?php } ?>
-                                            <?php if ($displayCurrency !== 'INR') { ?>
-                                            data-display_currency="<?php echo $data['display_currency'] ?>" <?php } ?>>
-                                        </script>
-                                        <!-- Any extra fields to be submitted with the form but not sent to Razorpay -->
-                                        <input type="hidden" name="shopping_order_id" value="<?php echo $type ?>">
-                                    </form>
-                                </center>
+                                <div class="col-lg-12 text-center">
+                                <button name="paymentBTN" id="paymentBTN" type="submit" class="site-btn">Pay</button>
+                                <!--  -->
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <?php }
+        ?>
 
         <!-- for end -->
 

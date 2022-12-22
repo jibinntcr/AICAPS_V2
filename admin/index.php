@@ -85,7 +85,40 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <td class="border px-4 py-2"><?php echo   $result->phone ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->designation ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->affiliation ?></td>
-                                                <td class="border px-4 py-2"><?php echo   $result->Type ?></td>
+
+                                                <?php
+                                                    $type=$result->Type;
+                                                    if($type=='₹6000'){
+                                                        $type='IEEE Indian Author (Academia)';
+                                                    }else if($type=='₹7000'){
+                                                        $type='IEEE Indian Author (Industry)';
+                                                    }else if($type=='₹5000'){
+                                                        $type='IEEE Indian Student';
+                                                    }else if($type=='₹2000'){
+                                                        $type='EEE Indian Non-Author Attendee';
+                                                    } else if($type=='$200'){
+                                                        $type='IEEE Foreign Author';
+                                                    } else if($type=='$100'){
+                                                        $type='IEEE Foreign Student Author';
+                                                    } else if($type=='$50'){
+                                                        $type='IEEE Foreign Non-Author Attendee';
+                                                    } else if($type=='₹7500'){
+                                                        $type='Non-IEEE Indian Author (Academia)';
+                                                    } else if($type=='₹8500'){
+                                                        $type='Non-IEEE Indian Author (Industry)';
+                                                    } else if($type=='₹6500'){
+                                                        $type='Non-IEEE Indian Student';
+                                                    } else if($type=='₹2500'){
+                                                        $type='Non-IEEE Indian Non-Author Attendee';
+                                                    } else if($type=='$250'){
+                                                        $type='Non-IEEE Foreign Author';
+                                                    } else if($type=='$150'){
+                                                        $type='Non-IEEE Foreign Student Author';
+                                                    } else if($type=='$70'){
+                                                        $type='Non-IEEE Foreign Non-Author Attendee';
+                                                    }  ?>
+
+                                                <td class="border px-4 py-2"><?php echo   $type ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->category ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->paperid ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->paperTitle ?></td>

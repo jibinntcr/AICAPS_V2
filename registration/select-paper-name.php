@@ -14,6 +14,8 @@ if (isset($_POST["paperid"])) {
 <!-- <div id="papername" class="col-lg-4" style="display: none;"> -->
 <input type="text" placeholder="Paper Name" name="papername" id="papername"
     value=" <?php echo ($userArr[0]->paperName); ?>" readonly>
+<input type="text" placeholder="Auther Name" name="authername" id="authername"
+    value=" <?php echo ($userArr[0]->autherName); ?>" readonly>
 <!-- </div> -->
 <?php }
 } ?>

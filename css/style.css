@@ -2136,6 +2136,9 @@ ol {
   -o-transition: all 0.3s;
   transition: all 0.3s;
 }
+.comment-form option {
+  width: 10px;
+}
 
 .comment-form select::-webkit-input-placeholder {
   color: #a0a1b5;

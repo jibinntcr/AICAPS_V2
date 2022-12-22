@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2022 at 01:04 PM
+-- Generation Time: Dec 22, 2022 at 02:10 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -30,18 +30,40 @@ SET time_zone = "+00:00";
 CREATE TABLE `paper` (
   `id` int(11) NOT NULL,
   `paperId` varchar(100) NOT NULL,
-  `paperName` varchar(100) NOT NULL
+  `paperName` varchar(100) NOT NULL,
+  `autherName` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `paper`
 --
 
-INSERT INTO `paper` (`id`, `paperId`, `paperName`) VALUES
-(1, '110225', 'test name1'),
-(2, '110223', 'test name2'),
-(3, '110226', 'test name3'),
-(4, '110227', 'test name4');
+INSERT INTO `paper` (`id`, `paperId`, `paperName`, `autherName`) VALUES
+(1, 'ICA_2023_paper_8059', 'A Rule Based Secure Network System - Prevents\r\nLog4jshell and SSH Intrusions', 'M A Samid Arsalan1,S Suryaraman2, Mrs. Sujatha G3\r\n'),
+(2, 'ICA_2023_paper_3321', 'Student performance prediction in e-learning system\r\nand evaluating effectiveness of online courses', 'Blessy Paul P, Dr.Cini Kurian'),
+(3, 'ICA_2023_paper_1324', 'Gradient Enhanced Regressive Multivariate\r\nArtificial Fish Swarm Optimized Data\r\nCollection for IoT-', 'Sheeja Rani S, Reham Mostfa and Ahmed M. Khedr'),
+(4, 'ICA_2023_paper_3034', 'Smart Irrigation management system for Precision Agriculture', 'D Venkata Sarath Chandra,Gagandeep Kaur,Mahua Bhattacharya'),
+(5, 'ICA_2023_paper_5999', 'On  the Role  of  Encryption  in  Big  Data  Analytics over Cloud', 'Sangeeta Rani,, Vikram Singh, Kapil Kaswan\r\n'),
+(6, 'ICA_2023_paper_1164', 'Covid-19 crowd detection and alert system usingage processing', 'Nitin Lodha and Harshvardhan Singh Gahlaut'),
+(7, 'ICA_2023_paper_2995', 'Yatish Sekaran, Shubh Oswal, Sai Dileep Suvvari, Tanmoy Debnath and Taeesh Azal Assadi', 'Yatish Sekaran, Shubh Oswal, Sai Dileep Suvvari, Tanmoy Debnath and Taeesh Azal Assadi'),
+(8, 'ICA_2023_paper_5208', 'Transformer based multimodal similarity search method for E-Commerce platforms', 'Chandan Charchit Sahoo, Yogesh Kumar Sharma and Deepak Singh Tomar'),
+(9, 'ICA_2023_paper_1688', 'Guided Cost Learning for Lunar Lander\r\nEnvironment Using Human Demonstrated\r\nExpert Trajectories', 'Deepak Dharrao,Shilpa Gite,Rahee Walambe'),
+(10, 'ICA_2023_paper_3519', 'Prediction of Autism and Dyslexia Using Machine Learning and Clinical Data Balancing', 'Swati Shilaskar, Shripad Bhatlawande, Harshal Dhande and Shivpriya Deshmukh'),
+(11, 'ICA_2023_paper_4841', 'IoT Based Smart Irrigation and Farm Protection System', 'Swati Shilaskar, Shripad Bhatlawande, Jayesh Deshmukh and Shreya Dehankar'),
+(12, 'ICA_2023_paper_710', 'Using ARIMA and LSTM to Implement Stock Market Analysis', 'Avinash Pandey, Gurneet Singh, Herjuno Hadiyudono Hadiyudono, Kolli Mourya and Mir Junaid Rasool Rasool'),
+(13, 'ICA_2023_paper_5644', 'A Deep Learning based approach to stock market price prediction using technical indicators', 'Nirupama Parida, Bunil Kumar Balabantaray, Rajashree Nayak and Jitendra Kumar Rout'),
+(14, 'ICA_2023_paper_1269', 'Pandemic Outbreak Time: Evaluation of Public Tweet Opinion by Machine Learning', 'Md Babul Islam, Swarna Hasibunnahar, Dr Piyush Kumar Shukla and Dr. Prashant Kumar Shukla'),
+(15, 'ICA_2023_paper_3051', 'Machine Learning Based Patient Classification In Emergency Department', 'Mehanas Shahul and Pushpalatha K.P'),
+(16, 'ICA_2023_paper_9793', 'Shyam Sundar Ramaswami and Dr. Gandharba Swain', 'Detecting Macro less and Anti-evasive Malware in Malspam Word Attachments Using Anergy Scoring Methodology'),
+(17, 'ICA_2023_paper_9964', 'E-dive:Underwater Fish Detection and Classification for Indian Waters', 'Kuldeep Vayadande'),
+(18, 'ICA_2023_paper_1556', 'Malware Detection using Dynamic Analysis', 'V Anandhi, Varun G Menon, P Vinod and E R Abhijith Krishna\r\n'),
+(19, 'ICA_2023_paper_1737', 'Patients’ Medical History Summarizer using NLP', 'Deepak Dharrao, Anupkumar Bongale, Vikrant Kadalaskar, Utkarsh Singh and Tathagata Singharoy'),
+(20, 'ICA_2023_paper_2256', 'DEEP LEARNING VIRTUAL ASSISTANT FOR VISUALLY IMPAIRED PEOPLE', 'Kancherla Sai Haritha, Ravulapalli Girija and Nalluri Sunny'),
+(21, 'ICA_2023_paper_3044', 'Evaluation of Dilated CNN for Hand Gestures Classification', 'Yasir Altaf and Abdul Wahid'),
+(22, 'ICA_2023_paper_5520', 'An Optimal Differential Evolution Based XGB Classifier for IoMT malware classification', 'Dhanya L and Dr.Chitra R'),
+(23, 'ICA_2023_paper_6033', 'Machine learning approaches to detect the discussion on Hacker forum.\r\n', 'Sindhya K Nambiar, Arundathi A, Anagha K J and Aromal Sujith'),
+(24, 'ICA_2023_paper_6363', 'Diagnosis of Middle Ear Diseases using Deep Learning Paradigms', 'Devendra K. Tayal, Neha Srivastava and Urshi Singh'),
+(25, 'ICA_2023_paper_7782', 'A New Clustering Approach based on Trust and\r\nRat Swarm Algorithm for WSN Applications', 'Walid Osamy, Ahmed Salim,Amel Al Ali');
 
 -- --------------------------------------------------------
 
@@ -57,20 +79,13 @@ CREATE TABLE `registration` (
   `designation` varchar(100) NOT NULL,
   `paperid` varchar(100) DEFAULT NULL,
   `paperTitle` varchar(100) DEFAULT NULL,
+  `autherName` varchar(250) NOT NULL,
   `affiliation` varchar(100) NOT NULL,
   `Type` varchar(100) NOT NULL,
   `category` varchar(250) NOT NULL,
   `paymentStatus` tinyint(1) DEFAULT NULL,
   `registerStatus` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `registration`
---
-
-INSERT INTO `registration` (`id`, `name`, `email`, `phone`, `designation`, `paperid`, `paperTitle`, `affiliation`, `Type`, `category`, `paymentStatus`, `registerStatus`) VALUES
-(4, 'Test Auther', 'testauther@mail.com', '974556325', 'Test Auther Designation', '110223', ' test name2', 'Test Auther Affiliation', '₹7000', 'Auther', NULL, 'initiated'),
-(5, 'Test Participant', 'testarticipant@mail.com', '794226532', 'Test Participant Designation', '', '', 'Test Participant Affiliation', '$150', 'Participant', NULL, 'initiated');
 
 -- --------------------------------------------------------
 
@@ -101,7 +116,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `userName`, `password`) VALUES
-(1, 'jerrysabu', '5f4dcc3b5aa765d61d8327deb882cf99');
+(1, 'jerrysabu', '5f4dcc3b5aa765d61d8327deb882cf99'),
+(3, 'aicapadmin', '21577ba90593b9a69ed560d97ed3a3e9');
 
 --
 -- Indexes for dumped tables
@@ -139,13 +155,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `paper`
 --
 ALTER TABLE `paper`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `type`
@@ -157,7 +173,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

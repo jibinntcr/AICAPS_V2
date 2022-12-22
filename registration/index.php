@@ -15,6 +15,7 @@ if (isset($_POST['registerBTN'])) {
     $category = $_POST['category'];
     $paperid = $_POST['paperid'];
     $papername = $_POST['papername'];
+    $authername = $_POST['authername'];
 
 
     $_SESSION['name'] = $_POST['name'];
@@ -26,9 +27,10 @@ if (isset($_POST['registerBTN'])) {
     $_SESSION['category'] = $_POST['category'];
     $_SESSION['paperid'] = $_POST['paperid'];
     $_SESSION['papername'] = $_POST['papername'];
+    $_SESSION['authername'] = $_POST['authername'];
 
     $registerStatus = 'initiated';
-    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,affiliation,type,registerStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "')";
+    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "')";
     // print_r($sql);
     // exit();
     $query = $dbh->prepare($sql);
@@ -123,7 +125,7 @@ if (isset($_POST['registerBTN'])) {
                                     <input type="email" placeholder="Email" name="email" id="email" required>
                                 </div>
                                 <div class="col-lg-4">
-                                    <input type="text" placeholder="Phone" name="phone" id="phone" required>
+                                    <input type="number" placeholder="Phone" name="phone" id="phone" required>
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="text" placeholder="Designation" name="designation" id="designation"
@@ -160,19 +162,44 @@ if (isset($_POST['registerBTN'])) {
                                         <option value="Auther">Author</option>
                                     </select>
                                 </div>
+                                <div id="paperid" class="col-lg-4" style="display:none;">
+                                    <select onchange="showPaperid(this.value)" name="paperid"
+                                        placeholder="Paper ID & Name" id="paperid" required>
+                                        <option selected="true" disabled="disabled">Paper Name</option>
+                                        <?php
+                                        $sql = "SELECT * from paper ";
+                                        $query = $dbh->prepare($sql);
+                                        $query->execute();
+                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-                                <div id="paperid" class="col-lg-4" style="display: none;">
+                                        if ($query->rowCount() > 0) {
+                                            foreach ($results as $result) {
+                                        ?>
+
+                                        <option value="<?php echo  $result->paperId ?>"><?php echo $result->paperId ?>                                        <?php }
+                                        }
+
+                                        ?>
+
+                                    </select>
+                                </div>
+
+
+                                <!-- <div id="paperid" class="col-lg-4" style="display: none;">
                                     <input type="text" placeholder="Paper ID" name="paperid" id="paperid"
                                         onchange="showPaperid(this.value)">
-                                </div>
+                                </div> -->
 
-                                <div id="papername" class="col-lg-4" style="display: none;">
-                                    <!-- <input type="text" placeholder="Paper Name" name="papername" id="papername"> -->
-                                </div>
+                                <div class="col-lg-4" id="papername" style="display: none;"> </div>
+                                <div class="col-lg-4" id="authername" style="display: none;"> </div>
                                 <div class="col-lg-12 text-center">
                                     <!-- <textarea placeholder="Messages"></textarea> -->
                                     <button name="registerBTN" id="registerBTN" type="submit" class="site-btn">Proceed
                                         to payment</button>
+                                                                 
+                                </div>
+                                <div class="col-lg-12 text-center mt-5">
+                                Already Registered?<a href="pay.php"> Pay Here</a>
                                 </div>
                             </div>
                         </form>
@@ -262,9 +289,11 @@ if (isset($_POST['registerBTN'])) {
         if (that.value == "Auther") {
             document.getElementById("paperid").style.display = "block";
             document.getElementById("papername").style.display = "block";
+            document.getElementById("authername").style.display = "block";
         } else if (that.value == "Participant") {
             document.getElementById("paperid").style.display = "none";
             document.getElementById("papername").style.display = "none ";
+            document.getElementById("authername").style.display = "none ";
         }
     }
 
@@ -278,6 +307,8 @@ if (isset($_POST['registerBTN'])) {
             },
             success: function(data) {
                 $('#papername').html(data);
+                console.log(data),
+                    $('#authername').html(data);
                 console.log(data);
             }
         });
