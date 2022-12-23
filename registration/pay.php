@@ -7,7 +7,7 @@ include('../admin/includes/config.php');
 
 if (isset($_SESSION['email'])) {
 
-    $email=$_SESSION['email'];
+    $email = $_SESSION['email'];
     $sql = "SELECT * FROM `registration` WHERE email= '$email'";
     // print_r($sql);
     // exit();
@@ -15,23 +15,21 @@ if (isset($_SESSION['email'])) {
     $query->execute();
     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
     if ($query->rowCount() > 0) {
-        
-        $name=$userArr[0]->name;
-        $email=$userArr[0]->email;
-        $phone=$userArr[0]->phone;
-        $designation=$userArr[0]->designation;
-        $affiliation=$userArr[0]->affiliation;
-        $type=$userArr[0]->Type;
-        $category=$userArr[0]->category;
-        $papername=$userArr[0]->paperTitle;
-        $paperid=$userArr[0]->paperid;
 
-    } 
-   
+        $name = $userArr[0]->name;
+        $email = $userArr[0]->email;
+        $phone = $userArr[0]->phone;
+        $designation = $userArr[0]->designation;
+        $affiliation = $userArr[0]->affiliation;
+        $type = $userArr[0]->Type;
+        $category = $userArr[0]->category;
+        $papername = $userArr[0]->paperTitle;
+        $paperid = $userArr[0]->paperid;
+    }
 }
 if (isset($_POST['emailBTN'])) {
 
-    $datamail=$_POST['email'];
+    $datamail = $_POST['email'];
     $sql = "SELECT * FROM `registration` WHERE email= '$datamail'";
     // print_r($sql);
     // exit();
@@ -39,19 +37,17 @@ if (isset($_POST['emailBTN'])) {
     $query->execute();
     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
     if ($query->rowCount() > 0) {
-        
-        $name=$userArr[0]->name;
-        $email=$userArr[0]->email;
-        $phone=$userArr[0]->phone;
-        $designation=$userArr[0]->designation;
-        $affiliation=$userArr[0]->affiliation;
-        $type=$userArr[0]->Type;
-        $category=$userArr[0]->category;
-        $papername=$userArr[0]->paperTitle;
-        $paperid=$userArr[0]->paperid;
 
-    } 
-    else{
+        $name = $userArr[0]->name;
+        $email = $userArr[0]->email;
+        $phone = $userArr[0]->phone;
+        $designation = $userArr[0]->designation;
+        $affiliation = $userArr[0]->affiliation;
+        $type = $userArr[0]->Type;
+        $category = $userArr[0]->category;
+        $papername = $userArr[0]->paperTitle;
+        $paperid = $userArr[0]->paperid;
+    } else {
         echo "<script>alert('Something went wrong! Please check the email id');</script>";
         echo "<script> location.href='pay.php'; </script>";
         exit();
@@ -143,10 +139,10 @@ if (isset($_POST['emailBTN'])) {
 
 
         <!-- form start -->
-        <?php 
-        if(!isset($_SESSION['email'])&&!isset($datamail)) {?>
+        <?php
+        if (!isset($_SESSION['email']) && !isset($datamail)) { ?>
 
-            <section class="contact-from-section spad">
+        <section class="contact-from-section spad">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -173,17 +169,17 @@ if (isset($_POST['emailBTN'])) {
             </div>
         </section>
         <?php
-   
-} ?>
-<?php
-if(isset($_SESSION['email']) || isset($datamail)) {?>
+
+        } ?>
+        <?php
+        if (isset($_SESSION['email']) || isset($datamail)) { ?>
         <section class="contact-from-section spad">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
                             <h2>Pay Here</h2>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -230,8 +226,9 @@ if(isset($_SESSION['email']) || isset($datamail)) {?>
                                     <?php echo $papername ?>
                                 </div>
                                 <div class="col-lg-12 text-center">
-                                <button name="paymentBTN" id="paymentBTN" type="submit" class="site-btn">Pay</button>
-                                <!--  -->
+                                    <button name="paymentBTN" id="paymentBTN" type="submit"
+                                        class="site-btn">Pay</button>
+                                    <!--  -->
                                 </div>
 
                             </div>
@@ -267,7 +264,7 @@ if(isset($_SESSION['email']) || isset($datamail)) {?>
                                     <a href="index.html#imp_dates">IMPORTANT DATES</a>
                                 </li>
                                 <li>
-                                    <a href="registration.php">REGISTRATIONS</a>
+                                    <a href="registration.php">REGISTRATION</a>
                                 </li>
                             </ul>
                             <div class="copyright-text">

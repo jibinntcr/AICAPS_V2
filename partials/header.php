@@ -16,7 +16,7 @@
                       <li><a href="call-for-papper.php">CALL FOR PAPER</a>
                       <li><a href="index.php#imp_dates">IMPORTANT DATES</a></li>
                       <!-- <li><a href="./blog.html">Blog</a></li> -->
-                      <li><a href="index.php#registration">REGISTRATIONS</a></li>
+                      <li><a href="index.php#registration">REGISTRATION</a></li>
                   </ul>
               </nav>
               <!-- <a href="#" class="primary-btn top-btn"><i class="fa fa-ticket"></i> Register</a> -->

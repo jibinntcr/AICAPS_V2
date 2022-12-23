@@ -176,10 +176,11 @@ if (isset($_POST['registerBTN'])) {
                                             foreach ($results as $result) {
                                         ?>
 
-                                        <option value="<?php echo  $result->paperId ?>"><?php echo $result->paperId ?>                                        <?php }
-                                        }
+                                        <option value="<?php echo  $result->paperId ?>"><?php echo $result->paperId ?>
+                                            <?php }
+                                                                                                                        }
 
-                                        ?>
+                                                                                                                                ?>
 
                                     </select>
                                 </div>
@@ -196,10 +197,10 @@ if (isset($_POST['registerBTN'])) {
                                     <!-- <textarea placeholder="Messages"></textarea> -->
                                     <button name="registerBTN" id="registerBTN" type="submit" class="site-btn">Proceed
                                         to payment</button>
-                                                                 
+
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                Already Registered?<a href="pay.php"> Pay Here</a>
+                                    Already Registered?<a href="pay.php"> Pay Here</a>
                                 </div>
                             </div>
                         </form>
@@ -232,7 +233,7 @@ if (isset($_POST['registerBTN'])) {
                                     <a href="index.html#imp_dates">IMPORTANT DATES</a>
                                 </li>
                                 <li>
-                                    <a href="registration.php">REGISTRATIONS</a>
+                                    <a href="registration.php">REGISTRATION</a>
                                 </li>
                             </ul>
                             <div class="copyright-text">

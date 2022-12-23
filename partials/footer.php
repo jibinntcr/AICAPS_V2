@@ -39,22 +39,23 @@
                         <a href="#" class="footer-logo"><img src="img/logo.png"width="200" alt=""></a>
                     </div> -->
                     <ul>
-                    <li><a href="index.html#about">ABOUT</a></li>
-                      <li><a href="committee.html">COMMITTEE</a>
-                      </li>
-                      <li><a href="call-for-paper.html">CALL FOR PAPER</a>
-                      <li><a href="index.html#imp_dates">IMPORTANT DATES</a></li>
-                      <!-- <li><a href="./blog.html">Blog</a></li> -->
-                      <li><a href="index.html#registration">REGISTRATIONS</a></li>
+                        <li><a href="index.html#about">ABOUT</a></li>
+                        <li><a href="committee.html">COMMITTEE</a>
+                        </li>
+                        <li><a href="call-for-paper.html">CALL FOR PAPER</a>
+                        <li><a href="index.html#imp_dates">IMPORTANT DATES</a></li>
+                        <!-- <li><a href="./blog.html">Blog</a></li> -->
+                        <li><a href="index.html#registration">REGISTRATION</a></li>
                     </ul>
                     <div class="copyright-text">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;
                             <script>
-                                document.write(new Date().getFullYear());
+                            document.write(new Date().getFullYear());
                             </script> All rights reserved | This
-                            site is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="http://infinio.co.in/" target="_blank">infinio</a>
+                            site is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                                href="http://infinio.co.in/" target="_blank">infinio</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
