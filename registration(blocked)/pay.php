@@ -5,28 +5,28 @@
 session_start();
 include('../admin/includes/config.php');
 
-if (isset($_SESSION['email'])) {
+// if (isset($_SESSION['email'])) {
 
-    $email = $_SESSION['email'];
-    $sql = "SELECT * FROM `registration` WHERE email= '$email'";
-    // print_r($sql);
-    // exit();
-    $query = $dbh->prepare($sql);
-    $query->execute();
-    $userArr = $query->fetchAll(PDO::FETCH_OBJ);
-    if ($query->rowCount() > 0) {
+//     $email = $_SESSION['email'];
+//     $sql = "SELECT * FROM `registration` WHERE email= '$email'";
+//     // print_r($sql);
+//     // exit();
+//     $query = $dbh->prepare($sql);
+//     $query->execute();
+//     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
+//     if ($query->rowCount() > 0) {
 
-        $name = $userArr[0]->name;
-        $email = $userArr[0]->email;
-        $phone = $userArr[0]->phone;
-        $designation = $userArr[0]->designation;
-        $affiliation = $userArr[0]->affiliation;
-        $type = $userArr[0]->Type;
-        $category = $userArr[0]->category;
-        $papername = $userArr[0]->paperTitle;
-        $paperid = $userArr[0]->paperid;
-    }
-}
+//         $name = $userArr[0]->name;
+//         $email = $userArr[0]->email;
+//         $phone = $userArr[0]->phone;
+//         $designation = $userArr[0]->designation;
+//         $affiliation = $userArr[0]->affiliation;
+//         $type = $userArr[0]->Type;
+//         $category = $userArr[0]->category;
+//         $papername = $userArr[0]->paperTitle;
+//         $paperid = $userArr[0]->paperid;
+//     }
+// }
 if (isset($_POST['emailBTN'])) {
 
     $datamail = $_POST['email'];
@@ -47,6 +47,7 @@ if (isset($_POST['emailBTN'])) {
         $category = $userArr[0]->category;
         $papername = $userArr[0]->paperTitle;
         $paperid = $userArr[0]->paperid;
+        $authorName = $userArr[0]->autherName;
     } else {
         echo "<script>alert('Something went wrong! Please check the email id');</script>";
         echo "<script> location.href='pay.php'; </script>";
@@ -140,7 +141,7 @@ if (isset($_POST['emailBTN'])) {
 
         <!-- form start -->
         <?php
-        if (!isset($_SESSION['email']) && !isset($datamail)) { ?>
+        if (!isset($datamail)) { ?>
 
         <section class="contact-from-section spad">
             <div class="container">
@@ -172,7 +173,7 @@ if (isset($_POST['emailBTN'])) {
 
         } ?>
         <?php
-        if (isset($_SESSION['email']) || isset($datamail)) { ?>
+        if (isset($datamail)) { ?>
         <section class="contact-from-section spad">
             <div class="container">
                 <div class="row">
@@ -224,6 +225,10 @@ if (isset($_POST['emailBTN'])) {
                                 <div class="col-lg-6 mb-3">
                                     <label><b>Paper Name:</b> </label>
                                     <?php echo $papername ?>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label><b>Author Name:</b> </label>
+                                    <?php echo $authorName ?>
                                 </div>
                                 <div class="col-lg-12 text-center">
                                     <button name="paymentBTN" id="paymentBTN" type="submit"

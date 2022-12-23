@@ -5,6 +5,8 @@ include('../admin/includes/config.php');
 
 
 if (isset($_POST['registerBTN'])) {
+    // print_r("hello");
+    // exit();
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -13,21 +15,28 @@ if (isset($_POST['registerBTN'])) {
     $affiliation = $_POST['affiliation'];
     $type = $_POST['type'];
     $category = $_POST['category'];
-    $paperid = $_POST['paperid'];
-    $papername = $_POST['papername'];
-    $authername = $_POST['authername'];
+    if ($category == 'Participant') {
+        $paperid = 'No Data Found';
+        $papername = 'No Data Found';
+        $authername = 'No Data Found';
+    } else {
+        $paperid = $_POST['paperid'];
+        $papername = $_POST['papername'];
+        $authername = $_POST['authername'];
+    }
+    // print_r($papername);
+    // exit();
 
-
-    $_SESSION['name'] = $_POST['name'];
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['phone'] = $_POST['phone'];
-    $_SESSION['designation'] = $_POST['designation'];
-    $_SESSION['affiliation'] = $_POST['affiliation'];
-    $_SESSION['type'] = $_POST['type'];
-    $_SESSION['category'] = $_POST['category'];
-    $_SESSION['paperid'] = $_POST['paperid'];
-    $_SESSION['papername'] = $_POST['papername'];
-    $_SESSION['authername'] = $_POST['authername'];
+    // $_SESSION['name'] = $_POST['name'];
+    // $_SESSION['email'] = $_POST['email'];
+    // $_SESSION['phone'] = $_POST['phone'];
+    // $_SESSION['designation'] = $_POST['designation'];
+    // $_SESSION['affiliation'] = $_POST['affiliation'];
+    // $_SESSION['type'] = $_POST['type'];
+    // $_SESSION['category'] = $_POST['category'];
+    // $_SESSION['paperid'] = $_POST['paperid'];
+    // $_SESSION['papername'] = $_POST['papername'];
+    // $_SESSION['authername'] = $_POST['authername'];
 
     $registerStatus = 'initiated';
     $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "')";
@@ -70,6 +79,7 @@ if (isset($_POST['registerBTN'])) {
     <link rel="stylesheet" href="../css/magnific-popup.css" type="text/css" />
     <link rel="stylesheet" href="../css/slicknav.min.css" type="text/css" />
     <link rel="stylesheet" href="../css/style.css" type="text/css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -116,13 +126,16 @@ if (isset($_POST['registerBTN'])) {
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
+                        <form name="regFORM" id="regFORM" class="comment-form contact-form"
+                            enctype="multipart/form-data" method="POST">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <input type="text" placeholder="Name" name="name" id="name" required>
+                                    <input type="text" placeholder="Name" name="name" id="name"
+                                        pattern="^[A-Za-zÀ-ÿ ,.'-]+$" required>
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="email" placeholder="Email" name="email" id="email" required>
+                                    <span id="availability"> </span>
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="number" placeholder="Phone" name="phone" id="phone" required>
@@ -136,8 +149,8 @@ if (isset($_POST['registerBTN'])) {
                                         required>
                                 </div>
                                 <div class="col-lg-4">
-                                    <select name="type" placeholder="Type" id="type" required>
-                                        <option selected="true" disabled="disabled">Type</option>
+                                    <select name="type" placeholder="Type" id="type" required="true">
+                                        <option value="" selected="true" disabled="disabled">Type</option>
                                         <option value="₹6000">IEEE Indian Author (Academia)</option>
                                         <option value="₹7000">IEEE Indian Author (Industry)</option>
                                         <option value="₹5000">IEEE Indian Student</option>
@@ -157,7 +170,7 @@ if (isset($_POST['registerBTN'])) {
                                 <div class="col-lg-4">
                                     <select onchange="yesnoCheck(this);" name="category" placeholder="Category"
                                         id="category" required>
-                                        <option selected="true" disabled="disabled">Category</option>
+                                        <option value="" selected="true" disabled="disabled">Category</option>
                                         <option value="Participant">Participant</option>
                                         <option value="Auther">Author</option>
                                     </select>
@@ -178,9 +191,9 @@ if (isset($_POST['registerBTN'])) {
 
                                         <option value="<?php echo  $result->paperId ?>"><?php echo $result->paperId ?>
                                             <?php }
-                                                                                                                        }
+                                        }
 
-                                                                                                                                ?>
+                                            ?>
 
                                     </select>
                                 </div>
@@ -199,7 +212,7 @@ if (isset($_POST['registerBTN'])) {
                                         to payment</button>
 
                                 </div>
-                                <div class="col-lg-12 text-center mt-5">
+                                <div class=" col-lg-12 text-center mt-5">
                                     Already Registered?<a href="pay.php"> Pay Here</a>
                                 </div>
                             </div>
@@ -308,11 +321,78 @@ if (isset($_POST['registerBTN'])) {
             },
             success: function(data) {
                 $('#papername').html(data);
-                console.log(data),
-                    $('#authername').html(data);
                 console.log(data);
+                //     $('#authername').html(data);
+                // console.log(data);
             }
         });
+    }
+    </script>
+    <script>
+    $(document).ready(function() {
+        $("#email").on('keyup', function() {
+            var email = $(this).val();
+            console.log("email_id =>", email);
+            $.ajax({
+                url: "email-validation.php",
+                method: "POST",
+                data: {
+                    email: email
+                },
+                datatype: "text",
+                success: function(data) {
+                    // alert(data);
+                    console.log(data);
+                    if (data == 'initiated' || data == 'completed') {
+                        $('#registerBTN').attr("disabled", true);
+                        $('#phone').attr("disabled", true);
+                        $('#designation').attr("disabled", true);
+                        $('#affiliation').attr("disabled", true);
+                        $('#type').attr("disabled", true);
+                        $('#category').attr("disabled", true);
+                        // $('#registerBTN').attr("disabled", true);
+                        // console.log("keri mone");
+                        $('#availability').html(
+                            '<span class="error" style="color:red">This email already exist.</span>'
+                        );
+                        if (data == 'initiated') {
+                            swal({
+                                title: "Registration Already Completed!",
+                                text: "please pay",
+                                icon: "success",
+                                button: "OK",
+                            });
+                        } else if (data == 'completed') {
+                            swal({
+                                title: "Success",
+                                text: "Registration Completed",
+                                icon: "success",
+                                button: "OK",
+                            });
+
+                        }
+                    } else if (data == 0) {
+                        $('#availability').html(
+                            '<span class="error" style="color:green"></span>'
+                        );
+                        $('#registerBTN').attr("disabled", false);
+                        $('#registerBTN').attr("disabled", false);
+                        $('#phone').attr("disabled", false);
+                        $('#designation').attr("disabled", false);
+                        $('#affiliation').attr("disabled", false);
+                        $('#type').attr("disabled", false);
+                        $('#category').attr("disabled", false);
+                    }
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+    function clearform(email) {
+        // alert("function call working");
+        document.getElementById("name").value = ""; //don't forget to set the textbox id
+        document.getElementById(email).value = "";
     }
     </script>
 </body>
