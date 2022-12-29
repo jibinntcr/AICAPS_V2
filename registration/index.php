@@ -237,7 +237,7 @@ if (isset($_POST['registerBTN'])) {
 
                                 </div>
                                 <div class=" col-lg-12 text-center mt-5">
-                                    Already Registered?<a href="pay.php"> Pay Here</a>
+                                    Already Registered?<a href="pay.php"> Click Here</a>
                                 </div>
                             </div>
                         </form>

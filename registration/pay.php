@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 include('../admin/includes/config.php');
 
@@ -10,8 +10,6 @@ if (isset($_POST['emailBTN'])) {
 
     $datamail = $_POST['email'];
     $sql = "SELECT * FROM `registration` WHERE email= '$datamail'";
-    // print_r($sql);
-    // exit();
     $query = $dbh->prepare($sql);
     $query->execute();
     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
@@ -72,12 +70,40 @@ if (isset($_POST['emailBTN'])) {
             $bp = 70;
         }
     } else {
-        echo "<script>alert('Something went wrong! Please check the email id');</script>";
+        $_SESSION['userget'] = 'false';
         echo "<script> location.href='pay.php'; </script>";
         exit();
     }
 }
 
+
+
+if (isset($_POST['paymentBTN'])) {
+    date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
+    $date = date('d-m-Y H:i:s');
+
+
+    $datamail = $_POST['datamail'];
+    $status = 'Completed';
+    $TransactionID = $_POST['TransactionID'];
+
+    $folder = 'receipt/';
+
+    $file = $folder . basename($_FILES["image"]["name"]);
+    move_uploaded_file($_FILES['image']['tmp_name'], $file);
+    $image = basename($_FILES["image"]["name"]);
+
+    $sql = "UPDATE  registration SET registerStatus='$status',transactionId='$TransactionID',updatedTime='$date',image='$image' where email='$datamail'";
+    // print_r($sql);
+    // exit();
+    $query = $dbh->prepare($sql);
+    $result = $query->execute();
+    if ($query->rowCount() > 0) {
+        $_SESSION['updateSTS'] = 'true';
+        echo "<script> location.href='pay.php'; </script>";
+        exit();
+    }
+}
 
 ?>
 
@@ -139,7 +165,8 @@ if (isset($_POST['emailBTN'])) {
         <!-- Navbar End -->
 
         <?php
-        if (isset($_SESSION["registration"]) == "initiated") {
+        if (isset($_SESSION["registration"])) {
+            if ($_SESSION["registration"] == "initiated") {
         ?>
         <script>
         swal({
@@ -151,16 +178,69 @@ if (isset($_POST['emailBTN'])) {
         </script>
 
         <?php
-            unset($_SESSION["registration"]);
-        } else if (isset($_SESSION["registration"]) == "failed") {
-        ?>
+                unset($_SESSION["registration"]);
+            } else if ($_SESSION["registration"] == "failed") {
+            ?>
         <script>
         swal("Something went wrong !", "Please try after some time!", "error");
         </script>
         <?php
-            unset($_SESSION["registration"]);
+                unset($_SESSION["registration"]);
+            }
         }
         ?>
+
+
+        <?php
+        if (isset($_SESSION['userget'])) {
+            if ($_SESSION['userget'] == 'false') {
+        ?>
+        <script>
+        swal("Email id not exist", "Please Register", "error");
+        </script>
+        <?php
+                unset($_SESSION["userget"]);
+            }
+        }
+
+
+
+        // AFTER UPDATE
+        if (isset($_SESSION['updateSTS'])) {
+            if ($_SESSION['updateSTS'] == 'true') { ?>
+        <script>
+        swal({
+            title: "Success",
+            text: "Phase 1 & 2 Completed",
+            icon: "success",
+            button: "OK",
+            type: "success"
+        }).then(okay => {
+            if (okay) {
+                window.location.href = "index.php";
+            }
+        });
+        </script>
+
+        <?php
+                unset($_SESSION["updateSTS"]);
+            } else { ?>
+        <script>
+        swal("Something went wrong ", "Please try again later", "error");
+        </script>
+
+        <?php unset($_SESSION["updateSTS"]);
+            }
+        }
+        ?>
+
+
+
+
+
+
+
+
 
         <!-- form start -->
         <?php
@@ -171,7 +251,7 @@ if (isset($_POST['emailBTN'])) {
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h2>Pay Here</h2>
+                            <h2>Phase 2</h2>
                         </div>
                     </div>
                 </div>
@@ -212,6 +292,12 @@ if (isset($_POST['emailBTN'])) {
                 </div>
                 <div class="row">
                     <div class="col-lg-12 rcorners2">
+                        <div class="section-title">
+                            <h2>User Details</h2>
+                            <!-- <h4>Details</h> -->
+
+
+                        </div>
                         <div class="comment-form contact-form">
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
@@ -279,17 +365,46 @@ if (isset($_POST['emailBTN'])) {
                                     <label>Account holder name - <b>Head Department of Computer Applications</b>
                                     </label>
                                 </div>
-                                <div class="col-lg-12 text-center">
+                                <!-- <div class="col-lg-12 text-center">
                                     <button name="paymentBTN" id="paymentBTN" type="submit" class="site-btn mt-4">Upload
                                         Payment Details</button>
-                                </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="section-title mt-5">
+                            <h2>Payment Details</h2>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 ">
+                                <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label>Transaction Reference Number</label>
+                                            <input type="text" placeholder="" name="TransactionID" id="TransactionID"
+                                                required>
+                                            <input type="hidden" name="datamail" id="datamail"
+                                                value="<?php echo $datamail ?>">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label>Transaction Reciept</label>
+                                            <input type="file" placeholder="Transaction Reciept" name="image" id="image"
+                                                accept=".jpg,.jpeg,.png,.pdf">
+                                        </div>
+                                        <div class="col-lg-12 text-center">
+                                            <!-- <textarea placeholder="Messages"></textarea> -->
+                                            <button name="paymentBTN" id="paymentBTN" type="submit"
+                                                class="site-btn">submit</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
-        <?php } else { ?>
+        <?php
+            } else { ?>
         <script>
         swal({
             title: "Success",
@@ -304,11 +419,18 @@ if (isset($_POST['emailBTN'])) {
         });
         </script>
 
-        <?php
-                // header("refresh:3;url=pay.php");
-            }
-        }
+        <?php  }
+
+            ?>
+
+        </section>
+
+        <?php }
         ?>
+
+
+
+
 
         <!-- for end -->
 
