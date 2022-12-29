@@ -11,13 +11,13 @@ if (isset($_POST["email"])) {
     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
     if ($query->rowCount() > 0) {
         $paySts = $userArr[0]->registerStatus;
-        if ($paySts == 'initiated') {
+        if ($paySts == 'Initiated') {
             // $_SESSION["initiated"] = "true";
-            $paySts = 'initiated';
+            $paySts = 'Initiated';
             echo $paySts;
-        } else if ($paySts == 'completed') {
+        } else if ($paySts == 'Completed') {
             // $_SESSION["completed"] = "true";
-            $paySts = 'completed';
+            $paySts = 'Completed';
             echo $paySts;
         }
     } else {

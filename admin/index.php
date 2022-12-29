@@ -59,11 +59,18 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th class="border w-1/6 px-4 py-2">Designation</th>
                                                 <th class="border w-1/7 px-4 py-2">Affiliation</th>
                                                 <th class="border w-1/5 px-4 py-2">Type</th>
+                                                <th class="border w-1/5 px-4 py-2">Presentation Mode</th>
                                                 <th class="border w-1/5 px-4 py-2">Category</th>
                                                 <th class="border w-1/5 px-4 py-2">Papper ID</th>
                                                 <th class="border w-1/5 px-4 py-2">Papper Name</th>
                                                 <th class="border w-1/5 px-4 py-2">Author Name</th>
+                                                <th class="border w-1/5 px-4 py-2">Have you uploaded pdf
+                                                    express generated camera ready paper in the IEEE portal</th>
+                                                <th class="border w-1/5 px-4 py-2">Food Preference</th>
                                                 <th class="border w-1/5 px-4 py-2">Status</th>
+                                                <th class="border w-1/5 px-4 py-2">Transaction ID</th>
+                                                <th class="border w-1/5 px-4 py-2">Receipt</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -89,42 +96,50 @@ if (strlen($_SESSION['alogin']) == 0) {
 
                                                 <?php
                                                             $type = $result->Type;
-                                                            if ($type == '₹6000') {
+                                                            if ($type == '1') {
                                                                 $type = 'IEEE Indian Author (Academia)';
-                                                            } else if ($type == '₹7000') {
+                                                            } else if ($type == '2') {
                                                                 $type = 'IEEE Indian Author (Industry)';
-                                                            } else if ($type == '₹5000') {
+                                                            } else if ($type == '3') {
                                                                 $type = 'IEEE Indian Student';
-                                                            } else if ($type == '₹2000') {
+                                                            } else if ($type == '4') {
                                                                 $type = 'EEE Indian Non-Author Attendee';
-                                                            } else if ($type == '$200') {
+                                                            } else if ($type == '5') {
                                                                 $type = 'IEEE Foreign Author';
-                                                            } else if ($type == '$100') {
+                                                            } else if ($type == '6') {
                                                                 $type = 'IEEE Foreign Student Author';
-                                                            } else if ($type == '$50') {
+                                                            } else if ($type == '7') {
                                                                 $type = 'IEEE Foreign Non-Author Attendee';
-                                                            } else if ($type == '₹7500') {
+                                                            } else if ($type == '8') {
                                                                 $type = 'Non-IEEE Indian Author (Academia)';
-                                                            } else if ($type == '₹8500') {
+                                                            } else if ($type == '9') {
                                                                 $type = 'Non-IEEE Indian Author (Industry)';
-                                                            } else if ($type == '₹6500') {
+                                                            } else if ($type == '10') {
                                                                 $type = 'Non-IEEE Indian Student';
-                                                            } else if ($type == '₹2500') {
+                                                            } else if ($type == '11') {
                                                                 $type = 'Non-IEEE Indian Non-Author Attendee';
-                                                            } else if ($type == '$250') {
+                                                            } else if ($type == '12') {
                                                                 $type = 'Non-IEEE Foreign Author';
-                                                            } else if ($type == '$150') {
+                                                            } else if ($type == '13') {
                                                                 $type = 'Non-IEEE Foreign Student Author';
-                                                            } else if ($type == '$70') {
+                                                            } else if ($type == '14') {
                                                                 $type = 'Non-IEEE Foreign Non-Author Attendee';
-                                                            }  ?>
+                                                            }
+                                                            ?>
 
                                                 <td class="border px-4 py-2"><?php echo   $type ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->PresentationMode ?>
+                                                </td>
                                                 <td class="border px-4 py-2"><?php echo   $result->category ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->paperid ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->paperTitle ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->autherName ?></td>
+                                                <td class="border px-4 py-2"><?php echo   $result->cameraReadyPaper ?>
+                                                </td>
+                                                <td class="border px-4 py-2"><?php echo   $result->FoodPreference ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->registerStatus ?>
+                                                <td class="border px-4 py-2"><?php echo   $result->transactionId ?>
+                                                <td class="border px-4 py-2"><?php echo   $result->receipt ?>
                                                 </td>
                                             </tr>
                                             <?php $cnt = $cnt + 1;

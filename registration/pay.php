@@ -5,28 +5,7 @@
 session_start();
 include('../admin/includes/config.php');
 
-// if (isset($_SESSION['email'])) {
 
-//     $email = $_SESSION['email'];
-//     $sql = "SELECT * FROM `registration` WHERE email= '$email'";
-//     // print_r($sql);
-//     // exit();
-//     $query = $dbh->prepare($sql);
-//     $query->execute();
-//     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
-//     if ($query->rowCount() > 0) {
-
-//         $name = $userArr[0]->name;
-//         $email = $userArr[0]->email;
-//         $phone = $userArr[0]->phone;
-//         $designation = $userArr[0]->designation;
-//         $affiliation = $userArr[0]->affiliation;
-//         $type = $userArr[0]->Type;
-//         $category = $userArr[0]->category;
-//         $papername = $userArr[0]->paperTitle;
-//         $paperid = $userArr[0]->paperid;
-//     }
-// }
 if (isset($_POST['emailBTN'])) {
 
     $datamail = $_POST['email'];
@@ -48,6 +27,50 @@ if (isset($_POST['emailBTN'])) {
         $papername = $userArr[0]->paperTitle;
         $paperid = $userArr[0]->paperid;
         $authorName = $userArr[0]->autherName;
+        $registerStatus = $userArr[0]->registerStatus;
+        if ($type == '1') {
+            $cu = '₹​';
+            $bp = 6000;
+        } else if ($type == '2') {
+            $cu = '₹​';
+            $bp = 7000;
+        } else if ($type == '3') {
+            $cu = '₹​';
+            $bp = 5000;
+        } else if ($type == '4') {
+            $cu = '₹​';
+            $bp = 2000;
+        } else if ($type == '5') {
+            $cu = '$​';
+            $bp = 200;
+        } else if ($type == '6') {
+            $cu = '$​';
+            $bp = 100;
+        } else if ($type == '7') {
+            $cu = '$​';
+            $bp = 50;
+        } else if ($type == '8') {
+            $cu = '₹​';
+            $bp = 7500;
+        } else if ($type == '9') {
+            $cu = '₹​';
+            $bp = 8500;
+        } else if ($type == '10') {
+            $cu = '₹​';
+            $bp = 6500;
+        } else if ($type == '11') {
+            $cu = '₹​';
+            $bp = 2500;
+        } else if ($type == '12') {
+            $cu = '$​';
+            $bp = 250;
+        } else if ($type == '13') {
+            $cu = '$​';
+            $bp = 150;
+        } else if ($type == '14') {
+            $cu = '$​';
+            $bp = 70;
+        }
     } else {
         echo "<script>alert('Something went wrong! Please check the email id');</script>";
         echo "<script> location.href='pay.php'; </script>";
@@ -93,7 +116,7 @@ if (isset($_POST['emailBTN'])) {
             <div class="loader"></div>
         </div> -->
 
-        <div class="container-fluid nav-bar bg-transparent">
+        <div class="container-fluid nav-bar bg-transparent ">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
                 <a href="../index.html" class="navbar-brand d-flex align-items-center text-center">
                     <img src="../img/logo_cap.png" class="m-0 text-primary" style="width: 250px" />
@@ -120,12 +143,13 @@ if (isset($_POST['emailBTN'])) {
         ?>
         <script>
         swal({
-            title: "Success!",
-            text: "Registration Completed",
+            title: "Success",
+            text: "Phase 1 Completed",
             icon: "success",
             button: "OK",
         });
         </script>
+
         <?php
             unset($_SESSION["registration"]);
         } else if (isset($_SESSION["registration"]) == "failed") {
@@ -138,12 +162,11 @@ if (isset($_POST['emailBTN'])) {
         }
         ?>
 
-
         <!-- form start -->
         <?php
         if (!isset($datamail)) { ?>
 
-        <section class="contact-from-section spad">
+        <section class="contact-from-section spad ">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -153,7 +176,7 @@ if (isset($_POST['emailBTN'])) {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 ">
                         <form class="comment-form contact-form" enctype="multipart/form-data" method="POST">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -173,19 +196,22 @@ if (isset($_POST['emailBTN'])) {
 
         } ?>
         <?php
-        if (isset($datamail)) { ?>
+        if (isset($datamail)) {
+            if ($registerStatus == "Initiated") { ?>
         <section class="contact-from-section spad">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title">
-                            <h2>Pay Here</h2>
+                            <h2>Phase 2</h2>
+                            <!-- <h4>Details</h> -->
+
 
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 rcorners2">
                         <div class="comment-form contact-form">
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
@@ -210,8 +236,15 @@ if (isset($_POST['emailBTN'])) {
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label><b>Price:</b> </label>
-                                    <?php echo $type ?>
+                                    <?php echo $cu . $bp . " + 18% GST" ?>
+                                    </br>
+                                    <label><b>Total Amount:</b> </label>
+                                    <?php
+                                            $gst_amt = ($bp * 18) / 100;
+                                            $total = $gst_amt + $bp;
+                                            echo $cu . $total ?>
                                 </div>
+
                                 <div class="col-lg-6 mb-3">
                                     <label><b>Category:</b> </label>
                                     <?php echo $category ?>
@@ -230,19 +263,51 @@ if (isset($_POST['emailBTN'])) {
                                     <label><b>Author Name:</b> </label>
                                     <?php echo $authorName ?>
                                 </div>
-                                <div class="col-lg-12 text-center">
-                                    <button name="paymentBTN" id="paymentBTN" type="submit"
-                                        class="site-btn">Pay</button>
-                                    <!--  -->
-                                </div>
 
+                            </div>
+                            <div class="row">
+                                <div class="section-title">
+                                    <h2>DDF Account Details</h2>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label>Account number - <b>67216724749</b></label>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label>IFSC CODE - <b>SBIN0070235</b> </label>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label>Account holder name - <b>Head Department of Computer Applications</b>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <button name="paymentBTN" id="paymentBTN" type="submit" class="site-btn mt-4">Upload
+                                        Payment Details</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <?php }
+        <?php } else { ?>
+        <script>
+        swal({
+            title: "Success",
+            text: "Phase 1 & 2 Completed",
+            icon: "success",
+            button: "OK",
+            type: "success"
+        }).then(okay => {
+            if (okay) {
+                window.location.href = "pay.php";
+            }
+        });
+        </script>
+
+        <?php
+                // header("refresh:3;url=pay.php");
+            }
+        }
         ?>
 
         <!-- for end -->

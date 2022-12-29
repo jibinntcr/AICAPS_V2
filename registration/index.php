@@ -1,12 +1,12 @@
 <?php
 session_start();
-error_reporting(0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include('../admin/includes/config.php');
 
 
 if (isset($_POST['registerBTN'])) {
-    // print_r("hello");
-    // exit();
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -14,6 +14,7 @@ if (isset($_POST['registerBTN'])) {
     $designation = $_POST['designation'];
     $affiliation = $_POST['affiliation'];
     $type = $_POST['type'];
+    $PresentationMode = $_POST['PresentationMode'];
     $category = $_POST['category'];
     if ($category == 'Participant') {
         $paperid = 'No Data Found';
@@ -24,24 +25,19 @@ if (isset($_POST['registerBTN'])) {
         $papername = $_POST['papername'];
         $authername = $_POST['authername'];
     }
-    // print_r($papername);
-    // exit();
 
-    // $_SESSION['name'] = $_POST['name'];
-    // $_SESSION['email'] = $_POST['email'];
-    // $_SESSION['phone'] = $_POST['phone'];
-    // $_SESSION['designation'] = $_POST['designation'];
-    // $_SESSION['affiliation'] = $_POST['affiliation'];
-    // $_SESSION['type'] = $_POST['type'];
-    // $_SESSION['category'] = $_POST['category'];
-    // $_SESSION['paperid'] = $_POST['paperid'];
-    // $_SESSION['papername'] = $_POST['papername'];
-    // $_SESSION['authername'] = $_POST['authername'];
+    $registerStatus = 'Initiated';
+    $transactionId = 'No Data Found';
+    $receipt = 'No Data Found';
+    if ($PresentationMode == 'online') {
+        $FoodPreference = 'NA';
+    } else {
+        $FoodPreference = $_POST['FoodPreference'];
+    }
+    $CameraReadyPaper = $_POST['CameraReadyPaper'];
+    $paymentSts = "Na Data Found";
 
-    $registerStatus = 'initiated';
-    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "')";
-    // print_r($sql);
-    // exit();
+    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "')";
     $query = $dbh->prepare($sql);
     $result = $query->execute();
     if ($query->rowCount() > 0) {
@@ -145,26 +141,36 @@ if (isset($_POST['registerBTN'])) {
                                         required>
                                 </div>
                                 <div class="col-lg-4">
-                                    <input type="text" placeholder="Affiliation" name="affiliation" id="affiliation"
-                                        required>
+                                    <input type="text" placeholder="Affiliation and Organisation" name="affiliation"
+                                        id="affiliation" required>
                                 </div>
+
                                 <div class="col-lg-4">
                                     <select name="type" placeholder="Type" id="type" required="true">
                                         <option value="" selected="true" disabled="disabled">Type</option>
-                                        <option value="₹6000">IEEE Indian Author (Academia)</option>
-                                        <option value="₹7000">IEEE Indian Author (Industry)</option>
-                                        <option value="₹5000">IEEE Indian Student</option>
-                                        <option value="₹2000">IEEE Indian Non-Author Attendee</option>
-                                        <option value="$200">IEEE Foreign Author</option>
-                                        <option value="$100">IEEE Foreign Student Author</option>
-                                        <option value="$50">IEEE Foreign Non-Author Attendee</option>
-                                        <option value="₹7500">Non-IEEE Indian Author (Academia)</option>
-                                        <option value="₹8500">Non-IEEE Indian Author (Industry)</option>
-                                        <option value="₹6500">Non-IEEE Indian Student</option>
-                                        <option value="₹2500">Non-IEEE Indian Non-Author Attendee</option>
-                                        <option value="$250">Non-IEEE Foreign Author</option>
-                                        <option value="$150">Non-IEEE Foreign Student Author</option>
-                                        <option value="$70">Non-IEEE Foreign Non-Author Attendee</option>
+                                        <option value="1">IEEE Indian Author (Academia)</option>
+                                        <option value="2">IEEE Indian Author (Industry)</option>
+                                        <option value="3">IEEE Indian Student</option>
+                                        <option value="4">IEEE Indian Non-Author Attendee</option>
+                                        <option value="5">IEEE Foreign Author</option>
+                                        <option value="6">IEEE Foreign Student Author</option>
+                                        <option value="7">IEEE Foreign Non-Author Attendee</option>
+                                        <option value="8">Non-IEEE Indian Author (Academia)</option>
+                                        <option value="9">Non-IEEE Indian Author (Industry)</option>
+                                        <option value="10">Non-IEEE Indian Student</option>
+                                        <option value="11">Non-IEEE Indian Non-Author Attendee</option>
+                                        <option value="12">Non-IEEE Foreign Author</option>
+                                        <option value="13">Non-IEEE Foreign Student Author</option>
+                                        <option value="14">Non-IEEE Foreign Non-Author Attendee</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <select name="CameraReadyPaper" placeholder="Camera ready paper"
+                                        id="CameraReadyPaper" required="true">
+                                        <option value="" selected="true" disabled="disabled">Have you uploaded pdf
+                                            express generated camera ready paper in the IEEE portal</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
@@ -172,7 +178,7 @@ if (isset($_POST['registerBTN'])) {
                                         id="category" required>
                                         <option value="" selected="true" disabled="disabled">Category</option>
                                         <option value="Participant">Participant</option>
-                                        <option value="Auther">Author</option>
+                                        <option value="Author">Author</option>
                                     </select>
                                 </div>
                                 <div id="paperid" class="col-lg-4" style="display:none;">
@@ -197,6 +203,24 @@ if (isset($_POST['registerBTN'])) {
 
                                     </select>
                                 </div>
+                                <div class="col-lg-4">
+                                    <select name="PresentationMode" placeholder="PresentationMode" id="PresentationMode"
+                                        required="true" onchange="FoodCheck(this);">
+                                        <option value="" selected=" true" disabled="disabled">Presentation Mode
+                                        </option>
+                                        <option value="online">Online</option>
+                                        <option value="offline">Offline</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4" id="FoodPreference" style="display: none;">
+                                    <select name="FoodPreference" placeholder="Food Preference" id="FoodPreference">
+                                        <option value="" selected=" true" disabled="disabled">Food Preference</option>
+                                        <option value="Vegetarian">Vegetarian</option>
+                                        <option value="None Vegetarian">Non-Vegetarian</option>
+                                        <option value="NA">NA</option>
+                                    </select>
+                                </div>
+
 
 
                                 <!-- <div id="paperid" class="col-lg-4" style="display: none;">
@@ -300,7 +324,7 @@ if (isset($_POST['registerBTN'])) {
 
     <script>
     function yesnoCheck(that) {
-        if (that.value == "Auther") {
+        if (that.value == "Author") {
             document.getElementById("paperid").style.display = "block";
             document.getElementById("papername").style.display = "block";
             document.getElementById("authername").style.display = "block";
@@ -308,6 +332,15 @@ if (isset($_POST['registerBTN'])) {
             document.getElementById("paperid").style.display = "none";
             document.getElementById("papername").style.display = "none ";
             document.getElementById("authername").style.display = "none ";
+        }
+    }
+
+    function FoodCheck(that) {
+        if (that.value == "offline") {
+            document.getElementById("FoodPreference").style.display = "block";
+        } else if (that.value == "online") {
+            document.getElementById("FoodPreference").style.display = "none";
+
         }
     }
 
@@ -343,29 +376,31 @@ if (isset($_POST['registerBTN'])) {
                 success: function(data) {
                     // alert(data);
                     console.log(data);
-                    if (data == 'initiated' || data == 'completed') {
+                    if (data == 'Initiated' || data == 'Completed') {
                         $('#registerBTN').attr("disabled", true);
                         $('#phone').attr("disabled", true);
                         $('#designation').attr("disabled", true);
                         $('#affiliation').attr("disabled", true);
                         $('#type').attr("disabled", true);
                         $('#category').attr("disabled", true);
+                        $('#CameraReadyPaper').attr("disabled", true);
+                        $('#PresentationMode').attr("disabled", true);
                         // $('#registerBTN').attr("disabled", true);
                         // console.log("keri mone");
                         $('#availability').html(
                             '<span class="error" style="color:red">This email already exist.</span>'
                         );
-                        if (data == 'initiated') {
+                        if (data == 'Initiated') {
                             swal({
-                                title: "Registration Already Completed!",
-                                text: "please pay",
+                                title: "Done",
+                                text: "Phase 1 Completed",
                                 icon: "success",
                                 button: "OK",
                             });
-                        } else if (data == 'completed') {
+                        } else if (data == 'Completed') {
                             swal({
                                 title: "Success",
-                                text: "Registration Completed",
+                                text: "Phase 1 & 2 Completed",
                                 icon: "success",
                                 button: "OK",
                             });
@@ -382,18 +417,13 @@ if (isset($_POST['registerBTN'])) {
                         $('#affiliation').attr("disabled", false);
                         $('#type').attr("disabled", false);
                         $('#category').attr("disabled", false);
+                        $('#CameraReadyPaper').attr("disabled", false);
+                        $('#PresentationMode').attr("disabled", false);
                     }
                 }
             });
         });
     });
-    </script>
-    <script>
-    function clearform(email) {
-        // alert("function call working");
-        document.getElementById("name").value = ""; //don't forget to set the textbox id
-        document.getElementById(email).value = "";
-    }
     </script>
 </body>
 

@@ -215,9 +215,9 @@
                         registered participants. Prices shown are not inclusive of Taxes.
                         Additional 18% GST is applicable.
                     </span>
-                    <!-- <div class="col-lg-12 text-center pt-5">
+                    <div class="col-lg-12 text-center pt-5">
                         <a href="registration/index.php" type="submit" class="site-btn">Register Here</a>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </section>
