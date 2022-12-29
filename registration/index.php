@@ -7,6 +7,10 @@ include('../admin/includes/config.php');
 
 
 if (isset($_POST['registerBTN'])) {
+    $targetDir = "upload/";
+   
+    $allowTypes = array('jpg','png','jpeg','gif','pdf');
+
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -25,7 +29,15 @@ if (isset($_POST['registerBTN'])) {
         $papername = $_POST['papername'];
         $authername = $_POST['authername'];
     }
-
+    $memberShip=null;
+    $studentId=null;
+    $studentIdPath=null;
+    $memberShipPath=null;
+        $memberShip=$_FILES['Membership'];
+        $studentId=$_FILES['StudentId'];
+        $studentIdPath=$targetDir.$studentId["name"];
+        $memberShipPath=$targetDir.$memberShip["name"];
+        echo "done";
     $registerStatus = 'Initiated';
     $transactionId = 'No Data Found';
     $receipt = 'No Data Found';
@@ -34,19 +46,36 @@ if (isset($_POST['registerBTN'])) {
     } else {
         $FoodPreference = $_POST['FoodPreference'];
     }
+
     $CameraReadyPaper = $_POST['CameraReadyPaper'];
     $paymentSts = "Na Data Found";
-
-    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "')";
-    $query = $dbh->prepare($sql);
-    $result = $query->execute();
-    if ($query->rowCount() > 0) {
-        $_SESSION["registration"] = "initiated";
-        echo '<script>window.location = "pay.php";</script>';
-    } else {
-        $_SESSION["registration"] = "failed";
-        echo '<script>window.location = "index.php";</script>';
+    if(move_uploaded_file($studentId["tmp_name"], $studentIdPath) || move_uploaded_file($studentId["tmp_name"], $memberShipPath)){
+        $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "','" . $memberShipPath . "','" . $studentIdPath . "')";
+        $query = $dbh->prepare($sql);
+        $result = $query->execute();
+        if ($query->rowCount() > 0) {
+            $_SESSION["registration"] = "initiated";
+            echo '<script>window.location = "pay.php";</script>';
+        } else {
+            $_SESSION["registration"] = "failed";
+            echo '<script>window.location = "index.php";</script>';
+        }
     }
+else
+{
+    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "','" . $memberShipPath . "','" . $studentIdPath . "')";
+        $query = $dbh->prepare($sql);
+        $result = $query->execute();
+        if ($query->rowCount() > 0) {
+            $_SESSION["registration"] = "initiated";
+            echo '<script>window.location = "pay.php";</script>';
+        } else {
+            $_SESSION["registration"] = "failed";
+            echo '<script>window.location = "index.php";</script>';
+        }
+}
+
+   
 }
 ?>
 
@@ -146,7 +175,7 @@ if (isset($_POST['registerBTN'])) {
                                 </div>
 
                                 <div class="col-lg-4">
-                                    <select name="type" placeholder="Type" id="type" required="true">
+                                    <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type" required="true">
                                         <option value="" selected="true" disabled="disabled">Type</option>
                                         <option value="1">IEEE Indian Author (Academia)</option>
                                         <option value="2">IEEE Indian Author (Industry)</option>
@@ -163,6 +192,14 @@ if (isset($_POST['registerBTN'])) {
                                         <option value="13">Non-IEEE Foreign Student Author</option>
                                         <option value="14">Non-IEEE Foreign Non-Author Attendee</option>
                                     </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="file" placeholder="IEEE Membership" name="Membership" display="none"
+                                        id="Membership" required>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="file" placeholder="Student Id" name="StudentId" display="none"
+                                        id="StudentId" required>
                                 </div>
                                 <div class="col-lg-4">
                                     <select name="CameraReadyPaper" placeholder="Camera ready paper"
@@ -343,6 +380,29 @@ if (isset($_POST['registerBTN'])) {
 
         }
     }
+
+    function extraFeild(that) {
+        console.log(that.options[that.selectedIndex].text);
+        var str=that.options[that.selectedIndex].text;
+        console.log(str.includes('Non-IEEE'));
+        if(str.includes('Non-IEEE'))
+        {
+            document.getElementById("StudentId").style.display = "none";
+            document.getElementById("Membership").style.display = "none";
+        }
+        else{
+            document.getElementById("Membership").style.display = "block";
+            document.getElementById("StudentId").style.display = "block";
+        }
+
+       /* if (that.value == "offline") {
+            document.getElementById("FoodPreference").style.display = "block";
+        } else if (that.value == "online") {
+            document.getElementById("FoodPreference").style.display = "none";
+
+        }*/
+    }
+
 
     function showPaperid(paperid) {
         console.log("paperId =>", paperid);
