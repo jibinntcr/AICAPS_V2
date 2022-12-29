@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2022 at 02:10 PM
+-- Generation Time: Dec 29, 2022 at 07:57 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -54,7 +54,7 @@ INSERT INTO `paper` (`id`, `paperId`, `paperName`, `autherName`) VALUES
 (13, 'ICA_2023_paper_5644', 'A Deep Learning based approach to stock market price prediction using technical indicators', 'Nirupama Parida, Bunil Kumar Balabantaray, Rajashree Nayak and Jitendra Kumar Rout'),
 (14, 'ICA_2023_paper_1269', 'Pandemic Outbreak Time: Evaluation of Public Tweet Opinion by Machine Learning', 'Md Babul Islam, Swarna Hasibunnahar, Dr Piyush Kumar Shukla and Dr. Prashant Kumar Shukla'),
 (15, 'ICA_2023_paper_3051', 'Machine Learning Based Patient Classification In Emergency Department', 'Mehanas Shahul and Pushpalatha K.P'),
-(16, 'ICA_2023_paper_9793', 'Shyam Sundar Ramaswami and Dr. Gandharba Swain', 'Detecting Macro less and Anti-evasive Malware in Malspam Word Attachments Using Anergy Scoring Methodology'),
+(16, 'ICA_2023_paper_9793', 'Detecting Macro less and Anti-evasive Malware in Malspam Word Attachments Using Anergy Scoring Metho', 'Shyam Sundar Ramaswami and Dr. Gandharba Swain'),
 (17, 'ICA_2023_paper_9964', 'E-dive:Underwater Fish Detection and Classification for Indian Waters', 'Kuldeep Vayadande'),
 (18, 'ICA_2023_paper_1556', 'Malware Detection using Dynamic Analysis', 'V Anandhi, Varun G Menon, P Vinod and E R Abhijith Krishna\r\n'),
 (19, 'ICA_2023_paper_1737', 'Patients’ Medical History Summarizer using NLP', 'Deepak Dharrao, Anupkumar Bongale, Vikrant Kadalaskar, Utkarsh Singh and Tathagata Singharoy'),
@@ -80,11 +80,21 @@ CREATE TABLE `registration` (
   `paperid` varchar(100) DEFAULT NULL,
   `paperTitle` varchar(100) DEFAULT NULL,
   `autherName` varchar(250) NOT NULL,
-  `affiliation` varchar(100) NOT NULL,
+  `affiliation` varchar(250) NOT NULL,
+  `PresentationMode` varchar(250) NOT NULL,
   `Type` varchar(100) NOT NULL,
   `category` varchar(250) NOT NULL,
   `paymentStatus` tinyint(1) DEFAULT NULL,
-  `registerStatus` varchar(10) DEFAULT NULL
+  `registerStatus` varchar(10) DEFAULT NULL,
+  `transactionId` varchar(250) NOT NULL,
+  `receipt` varchar(250) NOT NULL,
+  `cameraReadyPaper` varchar(250) NOT NULL,
+  `FoodPreference` varchar(250) NOT NULL,
+  `member_ship` varchar(500) DEFAULT NULL,
+  `student_id` varchar(500) DEFAULT NULL,
+  `createdTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedTime` datetime(6) NOT NULL,
+  `image` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -161,7 +171,7 @@ ALTER TABLE `paper`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `type`
