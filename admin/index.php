@@ -69,6 +69,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th class="border w-1/5 px-4 py-2">Have you uploaded pdf
                                                     express generated camera ready paper in the IEEE portal</th>
                                                 <th class="border w-1/5 px-4 py-2">Food Preference</th>
+                                                <th class="border w-1/5 px-4 py-2">IEEE Membership ID</th>
+                                                <th class="border w-1/5 px-4 py-2">Student ID Card</th>
                                                 <th class="border w-1/5 px-4 py-2">Status</th>
                                                 <th class="border w-1/5 px-4 py-2">Transaction ID</th>
                                                 <th class="border w-1/5 px-4 py-2">Receipt</th>
@@ -130,24 +132,71 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                             ?>
 
                                                 <td class="border px-4 py-2"><?php echo   $type ?></td>
+
+
+                                                <?php $PresentationMode = $result->PresentationMode;
+                                                            if (!empty($PresentationMode)) { ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->PresentationMode ?>
                                                 </td>
+                                                <?php } else { ?>
+                                                <td class="border px-4 py-2">No Data Found </td>
+                                                <?php }
+                                                            ?>
+
+
+
                                                 <td class="border px-4 py-2"><?php echo   $result->category ?></td>
+
+
                                                 <td class="border px-4 py-2"><?php echo   $result->paperid ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->paperTitle ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->autherName ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->cameraReadyPaper ?>
                                                 </td>
+
+
+
+                                                <?php $FoodPreference = $result->FoodPreference;
+                                                            if (!empty($FoodPreference)) { ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->FoodPreference ?>
+                                                    <?php } else { ?>
+                                                <td class="border px-4 py-2">No Data Found </td>
+                                                <?php }
+                                                            ?>
+
+
+
+                                                <?php $member_ship = $result->member_ship;
+                                                            if (!empty($member_ship)) { ?>
+                                                <td class="border px-4 py-2"><?php echo   $result->member_ship ?>
+                                                    <?php } else { ?>
+                                                <td class="border px-4 py-2">No Data Found </td>
+                                                <?php }
+                                                            ?>
+
+
+                                                <?php $studentID = $result->student_id;
+                                                            if (!empty($studentID)) { ?>
+                                                <td class="border px-4 py-2"><a
+                                                        href="../registration/id/<?php echo ($result->student_id) ?>"
+                                                        class="btn btn-success">View</a>
+                                                </td>
+                                                <?php } else { ?>
+                                                <td class="border px-4 py-2">No Data Found </td>
+                                                <?php }
+                                                            ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->registerStatus ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->transactionId ?>
                                                     <?php $image = $result->image;
                                                                 if (!empty($image)) { ?>
                                                 <td class="border px-4 py-2"><a
                                                         href="../registration/receipt/<?php echo ($result->image) ?>"
-                                                        class="btn btn-success">Download</a>
+                                                        class="btn btn-success">View</a>
                                                 </td>
-                                                <?php } ?>
+                                                <?php } else { ?>
+                                                <td class="border px-4 py-2">No Data Found </td>
+                                                <?php }
+                                                        ?>
                                             </tr>
                                             <?php $cnt = $cnt + 1;
                                                     }

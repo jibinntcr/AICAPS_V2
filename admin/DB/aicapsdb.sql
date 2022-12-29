@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2022 at 07:57 PM
+-- Generation Time: Dec 29, 2022 at 10:19 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -81,7 +81,7 @@ CREATE TABLE `registration` (
   `paperTitle` varchar(100) DEFAULT NULL,
   `autherName` varchar(250) NOT NULL,
   `affiliation` varchar(250) NOT NULL,
-  `PresentationMode` varchar(250) NOT NULL,
+  `PresentationMode` varchar(250) DEFAULT NULL,
   `Type` varchar(100) NOT NULL,
   `category` varchar(250) NOT NULL,
   `paymentStatus` tinyint(1) DEFAULT NULL,
@@ -171,7 +171,7 @@ ALTER TABLE `paper`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `type`

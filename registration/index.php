@@ -7,10 +7,6 @@ include('../admin/includes/config.php');
 
 
 if (isset($_POST['registerBTN'])) {
-    $targetDir = "upload/";
-
-    $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -19,6 +15,14 @@ if (isset($_POST['registerBTN'])) {
     $affiliation = $_POST['affiliation'];
     $type = $_POST['type'];
     $PresentationMode = $_POST['PresentationMode'];
+    $membership = $_POST['Membership'];
+
+    $folder = 'id/';
+
+    $file = $folder . basename($_FILES["StudentId"]["name"]);
+    move_uploaded_file($_FILES['StudentId']['tmp_name'], $file);
+    $studentId = basename($_FILES["StudentId"]["name"]);
+
     $category = $_POST['category'];
     if ($category == 'Participant') {
         $paperid = 'No Data Found';
@@ -29,48 +33,29 @@ if (isset($_POST['registerBTN'])) {
         $papername = $_POST['papername'];
         $authername = $_POST['authername'];
     }
-    $memberShip = null;
-    $studentId = null;
-    $studentIdPath = null;
-    $memberShipPath = null;
-    $memberShip = $_FILES['Membership'];
-    $studentId = $_FILES['StudentId'];
-    $studentIdPath = $targetDir . $studentId["name"];
-    $memberShipPath = $targetDir . $memberShip["name"];
-    echo "done";
+
     $registerStatus = 'Initiated';
     $transactionId = 'No Data Found';
     $receipt = 'No Data Found';
-    if ($PresentationMode == 'online') {
-        $FoodPreference = 'NA';
-    } else {
-        $FoodPreference = $_POST['FoodPreference'];
+    if (!empty($PresentationMode)) {
+        if ($PresentationMode == 'online') {
+            $FoodPreference = 'NA';
+        } else {
+            $FoodPreference = $_POST['FoodPreference'];
+        }
     }
-
     $CameraReadyPaper = $_POST['CameraReadyPaper'];
     $paymentSts = "Na Data Found";
-    if (move_uploaded_file($studentId["tmp_name"], $studentIdPath) || move_uploaded_file($studentId["tmp_name"], $memberShipPath)) {
-        $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "','" . $memberShipPath . "','" . $studentIdPath . "')";
-        $query = $dbh->prepare($sql);
-        $result = $query->execute();
-        if ($query->rowCount() > 0) {
-            $_SESSION["registration"] = "initiated";
-            echo '<script>window.location = "pay.php";</script>';
-        } else {
-            $_SESSION["registration"] = "failed";
-            echo '<script>window.location = "index.php";</script>';
-        }
+
+    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "','" . $membership . "','" . $studentId . "')";
+    $query = $dbh->prepare($sql);
+    $result = $query->execute();
+    if ($query->rowCount() > 0) {
+        $_SESSION["registration"] = "initiated";
+        echo '<script>window.location = "pay.php";</script>';
     } else {
-        $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "','" . $memberShipPath . "','" . $studentIdPath . "')";
-        $query = $dbh->prepare($sql);
-        $result = $query->execute();
-        if ($query->rowCount() > 0) {
-            $_SESSION["registration"] = "initiated";
-            echo '<script>window.location = "pay.php";</script>';
-        } else {
-            $_SESSION["registration"] = "failed";
-            echo '<script>window.location = "index.php";</script>';
-        }
+        $_SESSION["registration"] = "failed";
+        echo '<script>window.location = "index.php";</script>';
     }
 }
 ?>
@@ -191,12 +176,13 @@ if (isset($_POST['registerBTN'])) {
                                     </select>
                                 </div>
                                 <div class="col-lg-4">
-                                    <input type="file" placeholder="IEEE Membership" name="Membership" display="none"
-                                        id="Membership" required>
+                                    <input type="text" placeholder="IEEE Membership Number" name="Membership"
+                                        display="none" id="Membership">
                                 </div>
                                 <div class="col-lg-4">
+                                    <label>Student Id Card</label>
                                     <input type="file" placeholder="Student Id" name="StudentId" display="none"
-                                        id="StudentId" required>
+                                        id="StudentId" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
                                 <div class="col-lg-4">
                                     <select name="CameraReadyPaper" placeholder="Camera ready paper"
@@ -384,15 +370,27 @@ if (isset($_POST['registerBTN'])) {
 
     function extraFeild(that) {
         console.log(that.options[that.selectedIndex].text);
+        console.log(that.value);
         var str = that.options[that.selectedIndex].text;
         console.log(str.includes('Non-IEEE'));
-        if (str.includes('Non-IEEE')) {
+        if (that.value == '1' || that.value == '2' || that.value == '4' || that.value == '5' || that.value ==
+            '7') {
+            document.getElementById("Membership").style.display = "block";
             document.getElementById("StudentId").style.display = "none";
-            document.getElementById("Membership").style.display = "none";
-        } else {
+
+        } else if (that.value == '3' || that.value == '6') {
             document.getElementById("Membership").style.display = "block";
             document.getElementById("StudentId").style.display = "block";
+        } else if (that.value == '10' || that.value == '13') {
+            document.getElementById("Membership").style.display = "none";
+            document.getElementById("StudentId").style.display = "block";
+        } else if (that.value == '8' || that.value == '9' || that.value == '11' || that.value == '12' || that.value ==
+            '14') {
+            document.getElementById("Membership").style.display = "none";
+            document.getElementById("StudentId").style.display = "none";
+
         }
+
 
         /* if (that.value == "offline") {
              document.getElementById("FoodPreference").style.display = "block";
