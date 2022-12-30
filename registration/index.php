@@ -187,22 +187,22 @@ if (isset($_POST['registerBTN'])) {
                                         <option value="2">IEEE Indian Author (Industry)</option>
                                         <option value="3">IEEE Indian Student</option>
                                         <option value="5">IEEE Foreign Author</option>
-                                        <option value="6">IEEE Foreign Student Author</option>
+                                        <option value="6">IEEE Foreign Student</option>
                                         <option value="8">Non-IEEE Indian Author (Academia)</option>
                                         <option value="9">Non-IEEE Indian Author (Industry)</option>
                                         <option value="10">Non-IEEE Indian Student</option>
                                         <option value="12">Non-IEEE Foreign Author</option>
-                                        <option value="13">Non-IEEE Foreign Student Author</option>
+                                        <option value="13">Non-IEEE Foreign Student</option>
 
                                     </select>
                                 </div>
                                 <div class="col-lg-4" id="typeAttendee" style="display:none;">
                                     <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type">
                                         <option value="" selected="true" disabled="disabled">Type</option>
-                                        <option value="4">IEEE Indian Non-Author Attendee</option>
-                                        <option value="7">IEEE Foreign Non-Author Attendee</option>
-                                        <option value="11">Non-IEEE Indian Non-Author Attendee</option>
-                                        <option value="14">Non-IEEE Foreign Non-Author Attendee</option>
+                                        <option value="4">IEEE Indian Participant</option>
+                                        <option value="7">IEEE Foreign Participant</option>
+                                        <option value="11">Non-IEEE Indian Participant</option>
+                                        <option value="14">Non-IEEE Foreign Participant</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-4">

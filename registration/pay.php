@@ -359,7 +359,7 @@ if (isset($_POST['paymentBTN'])) {
                             </div>
                             <div class="row">
                                 <div class="section-title">
-                                    <h2>Account Details</h2>
+                                    <h2>Account Details For Payment</h2>
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label>Account number - <b>67216724749</b></label>
