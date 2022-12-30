@@ -19,6 +19,8 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="keywords"
         content="tailwind,tailwindcss,tailwind css,css,starter template,free template,admin templates, admin template, admin dashboard, free tailwind templates, tailwind example">
     <!-- Css -->
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="./dist/styles.css">
@@ -50,12 +52,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
                                     Table Name
                                 </div>
-                                <!-- <div class="row">
-                                    <a href="" class="btn btn-success">Download
-                                    </a>
-                                </div> -->
                                 <div class="p-3">
-                                    <table class="table-responsive w-full rounded">
+                                    <table class="table-responsive w-full rounded" id="table_date">
                                         <thead>
                                             <tr>
                                                 <th class="border w-1/4 px-4 py-2">#</th>
@@ -72,8 +70,6 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th class="border w-1/5 px-4 py-2">Author Name</th>
                                                 <th class="border w-1/5 px-4 py-2">Have you uploaded pdf
                                                     express generated camera ready paper in the IEEE portal</th>
-                                                <th class="border w-1/5 px-4 py-2">Have you uploaded IEEE copyright form
-                                                </th>
                                                 <th class="border w-1/5 px-4 py-2">Food Preference</th>
                                                 <th class="border w-1/5 px-4 py-2">IEEE Membership ID</th>
                                                 <th class="border w-1/5 px-4 py-2">Student ID Card</th>
@@ -157,35 +153,15 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <td class="border px-4 py-2"><?php echo   $result->paperid ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->paperTitle ?></td>
                                                 <td class="border px-4 py-2"><?php echo   $result->autherName ?></td>
-
-
-
-
-                                                <?php $cameraReadyPaper = $result->cameraReadyPaper;
-                                                            if (!empty($cameraReadyPaper)) { ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->cameraReadyPaper ?>
                                                 </td>
-                                                <?php } else { ?>
-                                                <td class="border px-4 py-2">No Data Found </td>
-                                                <?php }
-                                                            ?>
 
-
-                                                <?php $copyright = $result->copyright;
-                                                            if (!empty($copyright)) { ?>
-                                                <td class="border px-4 py-2"><?php echo   $result->copyright ?>
-                                                </td>
-                                                <?php } else { ?>
-                                                <td class="border px-4 py-2">No Data Found </td>
-                                                <?php }
-                                                            ?>
 
 
                                                 <?php $FoodPreference = $result->FoodPreference;
                                                             if (!empty($FoodPreference)) { ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->FoodPreference ?>
-                                                </td>
-                                                <?php } else { ?>
+                                                    <?php } else { ?>
                                                 <td class="border px-4 py-2">No Data Found </td>
                                                 <?php }
                                                             ?>
@@ -194,8 +170,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 
                                                 <?php $member_ship = $result->member_ship;
                                                             if (!empty($member_ship)) { ?>
-                                                <td class="border px-4 py-2"><?php echo   $result->member_ship ?></td>
-                                                <?php } else { ?>
+                                                <td class="border px-4 py-2"><?php echo   $result->member_ship ?>
+                                                    <?php } else { ?>
                                                 <td class="border px-4 py-2">No Data Found </td>
                                                 <?php }
                                                             ?>
@@ -212,19 +188,17 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <?php }
                                                             ?>
                                                 <td class="border px-4 py-2"><?php echo   $result->registerStatus ?>
-                                                </td>
-                                                <td class="border px-4 py-2"><?php echo   $result->transactionId ?></td>
-                                                <?php $image = $result->image;
-                                                            if (!empty($image)) { ?>
-
-                                                <td class="border px-4 py-2"><a
+                                                <td class="border px-4 py-2"><?php echo   $result->transactionId ?>
+                                                    <?php $image = $result->image;
+                                                                if (!empty($image)) { ?>
+                                                <td class="border px-4 py-2" ><a
                                                         href="../registration/receipt/<?php echo ($result->image) ?>"
                                                         class="btn btn-success">View</a>
                                                 </td>
                                                 <?php } else { ?>
                                                 <td class="border px-4 py-2">No Data Found </td>
                                                 <?php }
-                                                            ?>
+                                                        ?>
                                             </tr>
                                             <?php $cnt = $cnt + 1;
                                                     }
@@ -235,12 +209,17 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     </table>
                                 </div>
                             </div>
+                          
                         </div>
                         <!--/Profile Tabs-->
                     </div>
+                    <div align="center">  
+                     <button name="create_excel" id="create_excel" onClick="ExportToExcel('xlsx');" class="btn btn-success">Download Exel</button>  
+                </div>  
                 </main>
                 <!--/Main-->
             </div>
+           
             <!--Footer-->
             <footer class="bg-grey-darkest text-white p-2">
                 <div class="flex flex-1 mx-auto">&copy; AICAPS 2022 </div>
@@ -253,6 +232,17 @@ if (strlen($_SESSION['alogin']) == 0) {
         </div>
 
     </div>
+    <script>  
+function ExportToExcel(type, fn, dl) {
+    alert(location.href)
+       var elt = document.getElementById('table_date');
+       console.log(elt);
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+    } 
+ </script>  
     <script src="./main.js"></script>
 </body>
 
