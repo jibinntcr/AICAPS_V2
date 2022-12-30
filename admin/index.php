@@ -50,10 +50,10 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 <div class="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
                                     Table Name
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <a href="" class="btn btn-success">Download
                                     </a>
-                                </div>
+                                </div> -->
                                 <div class="p-3">
                                     <table class="table-responsive w-full rounded">
                                         <thead>
