@@ -30,6 +30,7 @@ if (isset($_POST['registerBTN'])) {
         $authername = 'No Data Found';
     } else {
         $paperid = $_POST['paperid'];
+        $paperid = 'ICA_2023_paper_' . $paperid;
         $papername = $_POST['papername'];
         $authername = $_POST['authername'];
     }
@@ -45,9 +46,25 @@ if (isset($_POST['registerBTN'])) {
         }
     }
     $CameraReadyPaper = $_POST['CameraReadyPaper'];
+
+    if (!empty($CameraReadyPaper)) {
+        if ($CameraReadyPaper == 'no') {
+            echo '<script>alert("Upload pdf express generated camera ready paper in the IEEE portal")</script>';
+            echo '<script>window.location = "index.php";</script>';
+            exit();
+        }
+    }
+    $copyright = $_POST['copyright'];
+    if (!empty($copyright)) {
+        if ($copyright == 'no') {
+            echo '<script>alert("Upload IEEE copyright form")</script>';
+            echo '<script>window.location = "index.php";</script>';
+            exit();
+        }
+    }
     $paymentSts = "Na Data Found";
 
-    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $paymentSts . "','" . $membership . "','" . $studentId . "')";
+    $sql = "INSERT INTO registration(name,email,phone,designation,category,paperid,paperTitle,autherName,affiliation,type,registerStatus,PresentationMode,transactionId,receipt,FoodPreference,cameraReadyPaper,copyright,paymentStatus,member_ship,student_id) VALUES ('" . $name . "','" . $email . "','" . $phone . "','" . $designation . "','" . $category . "','" . $paperid . "','" . $papername . "','" . $authername . "','" . $affiliation . "','" . $type . "','" . $registerStatus . "','" . $PresentationMode . "','" . $transactionId . "','" . $receipt . "','" . $FoodPreference . "','" . $CameraReadyPaper . "','" . $copyright . "','" . $paymentSts . "','" . $membership . "','" . $studentId . "')";
     $query = $dbh->prepare($sql);
     $result = $query->execute();
     if ($query->rowCount() > 0) {
@@ -154,45 +171,6 @@ if (isset($_POST['registerBTN'])) {
                                     <input type="text" placeholder="Affiliation and Organisation" name="affiliation"
                                         id="affiliation" required>
                                 </div>
-
-                                <div class="col-lg-4">
-                                    <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type"
-                                        required="true">
-                                        <option value="" selected="true" disabled="disabled">Type</option>
-                                        <option value="1">IEEE Indian Author (Academia)</option>
-                                        <option value="2">IEEE Indian Author (Industry)</option>
-                                        <option value="3">IEEE Indian Student</option>
-                                        <option value="4">IEEE Indian Non-Author Attendee</option>
-                                        <option value="5">IEEE Foreign Author</option>
-                                        <option value="6">IEEE Foreign Student Author</option>
-                                        <option value="7">IEEE Foreign Non-Author Attendee</option>
-                                        <option value="8">Non-IEEE Indian Author (Academia)</option>
-                                        <option value="9">Non-IEEE Indian Author (Industry)</option>
-                                        <option value="10">Non-IEEE Indian Student</option>
-                                        <option value="11">Non-IEEE Indian Non-Author Attendee</option>
-                                        <option value="12">Non-IEEE Foreign Author</option>
-                                        <option value="13">Non-IEEE Foreign Student Author</option>
-                                        <option value="14">Non-IEEE Foreign Non-Author Attendee</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-4">
-                                    <input type="text" placeholder="IEEE Membership Number" name="Membership"
-                                        display="none" id="Membership">
-                                </div>
-                                <div class="col-lg-4">
-                                    <label>Student Id Card</label>
-                                    <input type="file" placeholder="Student Id" name="StudentId" display="none"
-                                        id="StudentId" accept=".jpg,.jpeg,.png,.pdf">
-                                </div>
-                                <div class="col-lg-4">
-                                    <select name="CameraReadyPaper" placeholder="Camera ready paper"
-                                        id="CameraReadyPaper" required="true">
-                                        <option value="" selected="true" disabled="disabled">Have you uploaded pdf
-                                            express generated camera ready paper in the IEEE portal</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </select>
-                                </div>
                                 <div class="col-lg-4">
                                     <select onchange="yesnoCheck(this);" name="category" placeholder="Category"
                                         id="category" required>
@@ -201,28 +179,68 @@ if (isset($_POST['registerBTN'])) {
                                         <option value="Author">Author</option>
                                     </select>
                                 </div>
-                                <div id="paperid" class="col-lg-4" style="display:none;">
-                                    <select onchange="showPaperid(this.value)" name="paperid"
-                                        placeholder="Paper ID & Name" id="paperid" required>
-                                        <option selected="true" disabled="disabled">Paper Name</option>
-                                        <?php
-                                        $sql = "SELECT * from paper ";
-                                        $query = $dbh->prepare($sql);
-                                        $query->execute();
-                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-                                        if ($query->rowCount() > 0) {
-                                            foreach ($results as $result) {
-                                        ?>
-
-                                        <option value="<?php echo  $result->paperId ?>"><?php echo $result->paperId ?>
-                                            <?php }
-                                        }
-
-                                            ?>
+                                <div class="col-lg-4" id="typeAuther" style="display:none;">
+                                    <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type">
+                                        <option value="" selected="true" disabled="disabled">Type</option>
+                                        <option value="1">IEEE Indian Author (Academia)</option>
+                                        <option value="2">IEEE Indian Author (Industry)</option>
+                                        <option value="3">IEEE Indian Student</option>
+                                        <option value="5">IEEE Foreign Author</option>
+                                        <option value="6">IEEE Foreign Student Author</option>
+                                        <option value="8">Non-IEEE Indian Author (Academia)</option>
+                                        <option value="9">Non-IEEE Indian Author (Industry)</option>
+                                        <option value="10">Non-IEEE Indian Student</option>
+                                        <option value="12">Non-IEEE Foreign Author</option>
+                                        <option value="13">Non-IEEE Foreign Student Author</option>
 
                                     </select>
                                 </div>
+                                <div class="col-lg-4" id="typeAttendee" style="display:none;">
+                                    <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type">
+                                        <option value="" selected="true" disabled="disabled">Type</option>
+                                        <option value="4">IEEE Indian Non-Author Attendee</option>
+                                        <option value="7">IEEE Foreign Non-Author Attendee</option>
+                                        <option value="11">Non-IEEE Indian Non-Author Attendee</option>
+                                        <option value="14">Non-IEEE Foreign Non-Author Attendee</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="text" placeholder="IEEE Membership Number" name="Membership"
+                                        display="none" id="Membership">
+                                </div>
+                                <div class="col-lg-4" id="StudentId" display="none">
+                                    <label>Student Id Card</label>
+                                    <input type="file" placeholder="Student Id" name="StudentId" display="none"
+                                        id="StudentId" accept=".jpg,.jpeg,.png,.pdf">
+                                </div>
+                                <div class="col-lg-4" id="CameraReadyPaper" style="display:none;">
+                                    <select name="CameraReadyPaper" placeholder="Camera ready paper"
+                                        id="CameraReadyPaper" onchange="cameraReadyPaperChange(this);">
+                                        <option value="" selected="true" disabled="disabled">Have you uploaded pdf
+                                            express generated camera ready paper in the IEEE portal</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4" id="copyrightDiv" style="display:none;">
+                                    <select name="copyright" placeholder="Camera ready paper" id="copyright"
+                                        onchange="paperCopyright(this);">
+                                        <option value="" selected="true" disabled="disabled">Have you uploaded IEEE
+                                            copyright form</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-lg-4" id="paperid" style="display:none;">
+                                    <input type="text" onchange="showPaperid(this.value)" placeholder="Paper ID"
+                                        name="paperid" id="paperid">
+                                    <span id="availability"> </span>
+                                </div>
+
+
                                 <div class="col-lg-4" id="PresentationDiv" style="display:none;">
                                     <select name="PresentationMode" placeholder="PresentationMode" id="PresentationMode"
                                         onchange="FoodCheck(this);">
@@ -237,7 +255,6 @@ if (isset($_POST['registerBTN'])) {
                                         <option value="" selected=" true" disabled="disabled">Food Preference</option>
                                         <option value="Vegetarian">Vegetarian</option>
                                         <option value="None Vegetarian">Non-Vegetarian</option>
-                                        <option value="NA">NA</option>
                                     </select>
                                 </div>
 
@@ -349,15 +366,52 @@ if (isset($_POST['registerBTN'])) {
             document.getElementById("papername").style.display = "block";
             document.getElementById("authername").style.display = "block";
             document.getElementById("PresentationDiv").style.display = "block";
+            document.getElementById("CameraReadyPaper").style.display = "block";
+            document.getElementById("typeAuther").style.display = "block"
+            document.getElementById("typeAttendee").style.display = "none"
+            document.getElementById("copyrightDiv").style.display = "block"
+
 
         } else if (that.value == "Participant") {
             document.getElementById("paperid").style.display = "none";
             document.getElementById("papername").style.display = "none";
             document.getElementById("authername").style.display = "none";
             document.getElementById("PresentationDiv").style.display = "none";
+            document.getElementById("CameraReadyPaper").style.display = "none";
+            document.getElementById("typeAttendee").style.display = "block"
+            document.getElementById("typeAuther").style.display = "none"
+            document.getElementById("copyrightDiv").style.display = "none"
+
 
         }
     }
+
+    function paperCopyright(that) {
+        if (that.value == "no") {
+
+            swal("Error", "Upload IEEE copyright form",
+                "error");
+
+            $('#registerBTN').attr("disabled", true);
+
+        } else if (that.value == "yes") {
+            $('#registerBTN').attr("disabled", false);
+        }
+    }
+
+    function cameraReadyPaperChange(that) {
+        if (that.value == "no") {
+
+            swal("Error", "Upload pdf express generated camera ready paper in the IEEE portal !",
+                "error");
+
+            $('#registerBTN').attr("disabled", true);
+
+        } else if (that.value == "yes") {
+            $('#registerBTN').attr("disabled", false);
+        }
+    }
+
 
     function FoodCheck(that) {
         if (that.value == "offline") {
@@ -384,7 +438,8 @@ if (isset($_POST['registerBTN'])) {
         } else if (that.value == '10' || that.value == '13') {
             document.getElementById("Membership").style.display = "none";
             document.getElementById("StudentId").style.display = "block";
-        } else if (that.value == '8' || that.value == '9' || that.value == '11' || that.value == '12' || that.value ==
+        } else if (that.value == '8' || that.value == '9' || that.value == '11' || that.value == '12' || that
+            .value ==
             '14') {
             document.getElementById("Membership").style.display = "none";
             document.getElementById("StudentId").style.display = "none";

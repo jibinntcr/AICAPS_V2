@@ -39,7 +39,7 @@ if (isset($_POST['emailBTN'])) {
             $cu = '₹​';
             $bp = 2000;
         } else if ($type == '5') {
-            $cu = '$​';
+            $cu = '$';
             $bp = 200;
         } else if ($type == '6') {
             $cu = '$​';
@@ -322,13 +322,19 @@ if (isset($_POST['paymentBTN'])) {
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label><b>Price:</b> </label>
-                                    <?php echo $cu . $bp . " + 18% GST" ?>
+
+                                    <?php if ($type == '6' || $type == '7' || $type == '12' || $type == '13' || $type == '14') {
+                                                echo $cu . $bp;
+                                            } else {
+                                                echo $cu . $bp . " + 18% GST";
+                                            ?>
                                     </br>
                                     <label><b>Total Amount:</b> </label>
                                     <?php
-                                            $gst_amt = ($bp * 18) / 100;
-                                            $total = $gst_amt + $bp;
-                                            echo $cu . $total ?>
+                                                $gst_amt = ($bp * 18) / 100;
+                                                $total = $gst_amt + $bp;
+                                                echo $cu . $total;
+                                            } ?>
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
@@ -353,7 +359,7 @@ if (isset($_POST['paymentBTN'])) {
                             </div>
                             <div class="row">
                                 <div class="section-title">
-                                    <h2>DDF Account Details</h2>
+                                    <h2>Account Details</h2>
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label>Account number - <b>67216724749</b></label>

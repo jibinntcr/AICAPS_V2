@@ -6,7 +6,7 @@ include('../admin/includes/config.php');
 if (isset($_POST["paperid"])) {
 
 
-    $sql = "SELECT paperName,autherName FROM `paper` WHERE paperId= '" . $_POST["paperid"] . "'";
+    $sql = "SELECT paperName,autherName FROM `paper` WHERE lastID= '" . $_POST["paperid"] . "'";
     $query = $dbh->prepare($sql);
     $query->execute();
     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
