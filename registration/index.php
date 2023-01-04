@@ -13,7 +13,15 @@ if (isset($_POST['registerBTN'])) {
     $phone = $_POST['phone'];
     $designation = $_POST['designation'];
     $affiliation = $_POST['affiliation'];
-    $type = $_POST['type'];
+    // print_r($_POST['typeAttendeeID']);
+    // exit();
+    if (isset($_POST['typeAutherID'])) {
+        $type = $_POST['typeAutherID'];
+    }
+    if (isset($_POST['typeAttendeeID'])) {
+        $type = $_POST['typeAttendeeID'];
+    }
+    // $type = $_POST['type'];
     $PresentationMode = $_POST['PresentationMode'];
     $membership = $_POST['Membership'];
 
@@ -181,7 +189,8 @@ if (isset($_POST['registerBTN'])) {
                                 </div>
 
                                 <div class="col-lg-4" id="typeAuther" style="display:none;">
-                                    <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type">
+                                    <select name="typeAutherID" onchange="extraFeild(this);" placeholder="Type"
+                                        id="typeAutherID">
                                         <option value="" selected="true" disabled="disabled">Type</option>
                                         <option value="1">IEEE Indian Author (Academia)</option>
                                         <option value="2">IEEE Indian Author (Industry)</option>
@@ -197,7 +206,8 @@ if (isset($_POST['registerBTN'])) {
                                     </select>
                                 </div>
                                 <div class="col-lg-4" id="typeAttendee" style="display:none;">
-                                    <select name="type" onchange="extraFeild(this);" placeholder="Type" id="type">
+                                    <select name="typeAttendeeID" onchange="extraFeild(this);" placeholder="Type"
+                                        id="typeAttendeeID">
                                         <option value="" selected="true" disabled="disabled">Type</option>
                                         <option value="4">IEEE Indian Participant</option>
                                         <option value="7">IEEE Foreign Participant</option>
@@ -209,12 +219,12 @@ if (isset($_POST['registerBTN'])) {
                                     <input type="text" placeholder="IEEE Membership Number" name="Membership"
                                         display="none" id="Membership">
                                 </div>
-                                <div class="col-lg-4" id="StudentId" display="none">
+                                <div class="col-lg-4" id="StudentIdDiv" display="none">
                                     <label>Student Id Card</label>
                                     <input type="file" placeholder="Student Id" name="StudentId" display="none"
                                         id="StudentId" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
-                                <div class="col-lg-4" id="CameraReadyPaper" style="display:none;">
+                                <div class="col-lg-4" id="CameraReadyPaperDiv" style="display:none;">
                                     <select name="CameraReadyPaper" placeholder="Camera ready paper"
                                         id="CameraReadyPaper" onchange="cameraReadyPaperChange(this);">
                                         <option value="" selected="true" disabled="disabled">Have you uploaded pdf
@@ -234,7 +244,7 @@ if (isset($_POST['registerBTN'])) {
                                 </div>
 
 
-                                <div class="col-lg-4" id="paperid" style="display:none;">
+                                <div class="col-lg-4" id="paperidDiv" style="display:none;">
                                     <input type="text" onchange="showPaperid(this.value)" placeholder="Paper ID"
                                         name="paperid" id="paperid">
                                     <span id="availability"> </span>
@@ -250,7 +260,7 @@ if (isset($_POST['registerBTN'])) {
                                         <option value="offline">Offline</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-4" id="FoodPreference" style="display: none;">
+                                <div class="col-lg-4" id="FoodPreferenceDiv" style="display: none;">
                                     <select name="FoodPreference" placeholder="Food Preference" id="FoodPreference">
                                         <option value="" selected=" true" disabled="disabled">Food Preference</option>
                                         <option value="Vegetarian">Vegetarian</option>
@@ -362,22 +372,32 @@ if (isset($_POST['registerBTN'])) {
     <script>
     function yesnoCheck(that) {
         if (that.value == "Author") {
-            document.getElementById("paperid").style.display = "block";
+            // type.required = true;
+            paperid.required = true;
+            PresentationMode.required = true;
+            copyright.required = true;
+            CameraReadyPaper.required = true;
+            typeAutherID.required = true;
+
+
+            document.getElementById("paperidDiv").style.display = "block";
             document.getElementById("papername").style.display = "block";
             document.getElementById("authername").style.display = "block";
             document.getElementById("PresentationDiv").style.display = "block";
-            document.getElementById("CameraReadyPaper").style.display = "block";
+            document.getElementById("CameraReadyPaperDiv").style.display = "block";
             document.getElementById("typeAuther").style.display = "block"
             document.getElementById("typeAttendee").style.display = "none"
             document.getElementById("copyrightDiv").style.display = "block"
 
 
         } else if (that.value == "Participant") {
-            document.getElementById("paperid").style.display = "none";
+            typeAttendeeID.required = true;
+            // type.required = true;
+            document.getElementById("paperidDiv").style.display = "none";
             document.getElementById("papername").style.display = "none";
             document.getElementById("authername").style.display = "none";
             document.getElementById("PresentationDiv").style.display = "none";
-            document.getElementById("CameraReadyPaper").style.display = "none";
+            document.getElementById("CameraReadyPaperDiv").style.display = "none";
             document.getElementById("typeAttendee").style.display = "block"
             document.getElementById("typeAuther").style.display = "none"
             document.getElementById("copyrightDiv").style.display = "none"
@@ -415,9 +435,11 @@ if (isset($_POST['registerBTN'])) {
 
     function FoodCheck(that) {
         if (that.value == "offline") {
-            document.getElementById("FoodPreference").style.display = "block";
+            FoodPreference.required = true;
+            document.getElementById("FoodPreferenceDiv").style.display = "block";
         } else if (that.value == "online") {
-            document.getElementById("FoodPreference").style.display = "none";
+
+            document.getElementById("FoodPreferenceDiv").style.display = "none";
 
         }
     }
@@ -430,19 +452,29 @@ if (isset($_POST['registerBTN'])) {
         if (that.value == '1' || that.value == '2' || that.value == '4' || that.value == '5' || that.value ==
             '7') {
             document.getElementById("Membership").style.display = "block";
-            document.getElementById("StudentId").style.display = "none";
+            document.getElementById("StudentIdDiv").style.display = "none";
+            Membership.required = true;
+            StudentId.required = false;
 
         } else if (that.value == '3' || that.value == '6') {
             document.getElementById("Membership").style.display = "block";
-            document.getElementById("StudentId").style.display = "block";
+            document.getElementById("StudentIdDiv").style.display = "block";
+            Membership.required = true;
+            StudentId.required = true;
         } else if (that.value == '10' || that.value == '13') {
             document.getElementById("Membership").style.display = "none";
-            document.getElementById("StudentId").style.display = "block";
+            document.getElementById("StudentIdDiv").style.display = "block";
+            StudentId.required = true;
+            Membership.required = false;
+
         } else if (that.value == '8' || that.value == '9' || that.value == '11' || that.value == '12' || that
             .value ==
             '14') {
             document.getElementById("Membership").style.display = "none";
-            document.getElementById("StudentId").style.display = "none";
+            document.getElementById("StudentIdDiv").style.display = "none";
+            StudentId.required = false;
+            Membership.required = false;
+
 
         }
 
