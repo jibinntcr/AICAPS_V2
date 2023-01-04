@@ -165,11 +165,11 @@ if (isset($_POST['registerBTN'])) {
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="text" placeholder="Designation" name="designation" id="designation"
-                                        required>
+                                        pattern="[a-zA-Z]+" required>
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="text" placeholder="Affiliation and Organisation" name="affiliation"
-                                        id="affiliation" required>
+                                        id="affiliation" pattern="[a-zA-Z]+" required>
                                 </div>
                                 <div class="col-lg-4">
                                     <select onchange="yesnoCheck(this);" name="category" placeholder="Category"
@@ -465,8 +465,16 @@ if (isset($_POST['registerBTN'])) {
                 paperid: paperid
             },
             success: function(data) {
-                $('#papername').html(data);
+
                 console.log(data);
+                if (data == 'Paper Id not valid') {
+                    $('#registerBTN').attr("disabled", true);
+                    swal("Error", "Paper Id not valid",
+                        "error");
+                } else {
+                    $('#papername').html(data);
+                    $('#registerBTN').attr("disabled", false);
+                }
                 //     $('#authername').html(data);
                 // console.log(data);
             }

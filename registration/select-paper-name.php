@@ -10,7 +10,9 @@ if (isset($_POST["paperid"])) {
     $query = $dbh->prepare($sql);
     $query->execute();
     $userArr = $query->fetchAll(PDO::FETCH_OBJ);
-    if ($query->rowCount() > 0) { ?>
+    if ($query->rowCount() > 0) {
+        // $sts = 'dbSelected'
+?>
 <!-- <div id="papername" class="col-lg-4" style="display: none;"> -->
 <h4>Paper Name</h4>
 <label for="papername" name="papername" id="papername"><?php echo ($userArr[0]->paperName); ?>
@@ -26,5 +28,8 @@ if (isset($_POST["paperid"])) {
 <!-- <input type="text" placeholder="Auther Name" name="authername" id="authername"
     value=" " readonly> -->
 <!-- </div> -->
-<?php }
+<?php } else {
+        $sts = 'Paper Id not valid';
+        echo $sts;
+    }
 } ?>
