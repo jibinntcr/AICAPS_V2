@@ -2806,3 +2806,38 @@ ol {
   /* width: 200px;
   height: 150px; */
 }
+.justify-para {
+  text-align: justify;
+  text-justify: inter-word;
+}
+.speaker-corner {
+  border-radius: 25px;
+  border: 2px solid #e02323;
+  padding: 20px;
+  /* width: 200px;
+  height: 150px; */
+}
+.speaker-image-border {
+  border: #000000 solid 2px;
+  box-shadow: #ff0000 3px 3px;
+  padding: 20px;
+}
+.speaker-name {
+  font-size: 2em;
+  font-weight: 600;
+  color: #ff0d0d;
+}
+.speaker-designation {
+  font-style: italic;
+  font-weight: 500;
+}
+.sec-title {
+  position: relative;
+  margin-bottom: 50px;
+}
+.text-left {
+  text-align: left;
+}
+.services-style-one {
+  padding-top: 50px;
+}
