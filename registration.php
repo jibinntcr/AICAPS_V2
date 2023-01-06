@@ -54,7 +54,7 @@
                     <div class="navbar-nav ms-auto">
                         <a href="index.html#about" class="nav-item nav-link active">About</a>
                         <a href="committee.html" class="nav-item nav-link">Committee</a>
-                        <a href="#" class="nav-item nav-link">Speakers</a>
+                        <a href="speakers.html" class="nav-item nav-link">Speakers</a>
                         <a href="call-for-paper.html" class="nav-item nav-link">Call For Paper</a>
                         <a href="index.html#imp_dates" class="nav-item nav-link">Important Dates</a>
                         <a href="registration.php" class="nav-item nav-link">Registration</a>
