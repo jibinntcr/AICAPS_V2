@@ -58,6 +58,7 @@
                         <a href="call-for-paper.html" class="nav-item nav-link">Call For Paper</a>
                         <a href="index.html#imp_dates" class="nav-item nav-link">Important Dates</a>
                         <a href="registration.php" class="nav-item nav-link">Registration</a>
+                        <a href="publication.html" class="nav-item nav-link">publication</a>
                     </div>
                 </div>
             </nav>
