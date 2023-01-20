@@ -58,6 +58,13 @@
                         <a href="call-for-paper.html" class="nav-item nav-link">Call For Paper</a>
                         <a href="index.html#imp_dates" class="nav-item nav-link">Important Dates</a>
                         <a href="registration.php" class="nav-item nav-link">Registration</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Programme</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="programme-schedule.html" class="dropdown-item">Programme schedule</a>
+                                <a href="presentation-schedule.html" class="dropdown-item">Presentation Schedule</a>
+                            </div>
+                        </div>
                         <a href="publication.html" class="nav-item nav-link">publication</a>
                     </div>
                 </div>
