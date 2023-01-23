@@ -54,7 +54,18 @@
                     <div class="navbar-nav ms-auto">
                         <a href="index.html#about" class="nav-item nav-link active">About</a>
                         <a href="committee.html" class="nav-item nav-link">Committee</a>
-                        <a href="speakers.html" class="nav-item nav-link">Speakers</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Speakers &
+                                Workshop</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a target="_blank" href="speakers.html" class="dropdown-item">Speakers</a>
+                                <a target="_blank" href="assets/pdf/Document Malware Analysis final.pdf"
+                                    class="dropdown-item">Document Malware Analysis final</a>
+                                <a target="_blank"
+                                    href="assets/pdf/Training Program on Vulnerability Assessment and Pen Testing.pdf"
+                                    class="dropdown-item">Vulnerability Assessment and Pen Testing</a>
+                            </div>
+                        </div>
                         <a href="call-for-paper.html" class="nav-item nav-link">Call For Paper</a>
                         <a href="index.html#imp_dates" class="nav-item nav-link">Important Dates</a>
                         <a href="registration.php" class="nav-item nav-link">Registration</a>
